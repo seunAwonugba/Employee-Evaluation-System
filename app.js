@@ -4,6 +4,8 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const host = "localhost";
 const port = process.env.PORT || 8080;
 
+app.use(express.json());
+
 app.get("/", (req, res) => {
     res.status(StatusCodes.OK).json({
         success: true,
