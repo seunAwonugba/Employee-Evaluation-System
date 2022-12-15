@@ -1,0 +1,82 @@
+[
+    {
+        "firstName": "Uzodimma",
+        "lastName": "Atanda",
+        "email": "omolara39@isaac.gov.ng",
+        "gender": "male",
+        "phoneNumber": 2348122071541,
+        "address": "97 Saheed Street 98258 ObiomaVille",
+        "password": "uzodimma",
+        "role": "manager"
+    },
+    {
+        "firstName": "Alade",
+        "lastName": "Ehigiator",
+        "email": "shalewa10@olubukola.org.ng",
+        "gender": "male",
+        "phoneNumber": 234080141117,
+        "address": "30 Gbogboade Street 58 586 FunmilayoVille",
+        "password": "ehigiator",
+        "role": "manager"
+    },
+    {
+        "firstName": "Wale",
+        "lastName": "Adebayo",
+        "email": "zbusari@elizabeth.net",
+        "gender": "male",
+        "phoneNumber": 2348113261748,
+        "address": "90 Abodunrin Street 84324 ChukwuVille",
+        "password": "adebayo",
+        "role": "member"
+    },
+    {
+        "firstName": "Sekinat",
+        "lastName": "Onohinosen",
+        "email": "funmilade.onohinosen@adeyemo.co",
+        "gender": "female",
+        "phoneNumber": 234080141117,
+        "address": "86 Ajose-adeogun Street 46 153 FatimaVille",
+        "password": "sekinat",
+        "role": "member"
+    },
+    {
+        "firstName": "Chizoba",
+        "lastName": "Balogun",
+        "email": "salami.obioma@hotmail.com",
+        "gender": "female",
+        "phoneNumber": 2348109942720,
+        "address": "29 Obiageli Street 66047 AdeboyeVille",
+        "password": "chizoba",
+        "role": "member"
+    },
+    {
+        "firstName": "Omolara",
+        "lastName": "Latifat",
+        "email": "omawunmi72@amaechi.biz",
+        "gender": "female",
+        "phoneNumber": 2348158046153,
+        "address": "36 Adeyemo Street 95204 MusaVille",
+        "password": "omolora",
+        "role": "member"
+    },
+    {
+        "firstName": "Temitope",
+        "lastName": "David",
+        "email": "titilayo24@lawal.com",
+        "gender": "male",
+        "phoneNumber": 2348053349516,
+        "address": "25 Olaoluwa Street 43974 AbisolaVille",
+        "password": "temitope",
+        "role": "member"
+    },
+    {
+        "firstName": "Toluwani",
+        "lastName": "Chibike",
+        "email": "mohammed.ayobami@olubunmi.org",
+        "gender": "female",
+        "phoneNumber": 2348033869162,
+        "address": "12 Samuel Street 36 953 JolayemiVille",
+        "password": "toluwani",
+        "role": "member"
+    }
+]
