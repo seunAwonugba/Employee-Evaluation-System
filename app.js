@@ -3,6 +3,9 @@ const app = express();
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const host = "localhost";
 const port = process.env.PORT || 8080;
+const { connectDatabase } = require("./db/connect");
+require("dotenv").config();
+require("express-async-errors");
 
 app.use(express.json());
 
@@ -20,6 +23,15 @@ app.all("*", (req, res) => {
     });
 });
 
-app.listen(port, host, () => {
-    console.log(`Server is listening on http://${host}:${port}`);
-});
+const startServer = async (connectionString) => {
+    try {
+        await connectDatabase(connectionString);
+        app.listen(port, host, () => {
+            console.log(`Server is listening on http://${host}:${port}`);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+startServer(process.env.CONNECTION_STRING);
