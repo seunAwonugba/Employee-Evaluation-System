@@ -23,7 +23,7 @@ const UserSchema = mongoose.Schema(
             type: String,
         },
         phoneNumber: {
-            type: Number,
+            type: String,
         },
         address: {
             type: String,
@@ -36,9 +36,14 @@ const UserSchema = mongoose.Schema(
         role: {
             type: String,
             enum: {
-                values : ["member", "manager"],
-                message : "{value} is not a valid role "
+                values: ["member", "manager"],
+                message: "{value} is not a valid role ",
             },
+        },
+        managerId: {
+            type: mongoose.Types.ObjectId,
+            default: null,
+            ref: "UserModel",
         },
     },
     { timestamps: true }
