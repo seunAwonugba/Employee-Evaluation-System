@@ -4,7 +4,8 @@
     "description": "an employee management system, where managers and staffs have to opportunity to evaluate and rate staffs and managers respectively. ",
     "main": "app.js",
     "scripts": {
-        "start": "nodemon app.js"
+        "start": "nodemon app.js",
+        "seed_data": "node db/populate.js"
     },
     "author": "awonugba seun",
     "license": "ISC",

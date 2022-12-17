@@ -1,0 +1,24 @@
+[
+    {
+        "firstName": "Uzodimma",
+        "lastName": "Atanda",
+        "email": "omolara39@mailinator.com",
+        "gender": "male",
+        "phoneNumber": 2348122071541,
+        "address": "97 Saheed Street 98258 ObiomaVille",
+        "password": "uzodimma",
+        "role": "manager",
+        "branch": "lagos"
+    },
+    {
+        "firstName": "Alade",
+        "lastName": "Ehigiator",
+        "email": "shalewa10@mailinator.com",
+        "gender": "male",
+        "phoneNumber": 234080141117,
+        "address": "30 Gbogboade Street 58 586 FunmilayoVille",
+        "password": "ehigiator",
+        "role": "manager",
+        "branch": "abuja"
+    }
+]

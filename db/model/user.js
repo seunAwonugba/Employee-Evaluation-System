@@ -45,6 +45,9 @@ const UserSchema = mongoose.Schema(
             default: null,
             ref: "UserModel",
         },
+        branch: {
+            type: String,
+        },
     },
     { timestamps: true }
 );
