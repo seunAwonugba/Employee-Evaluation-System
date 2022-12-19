@@ -1,0 +1,68 @@
+[
+    {
+        "firstName": "Wale",
+        "lastName": "Adebayo",
+        "email": "seunawonugba+member_wale@gmail.com",
+        "gender": "male",
+        "phoneNumber": 2348113261748,
+        "address": "90 Abodunrin Street 84324 ChukwuVille",
+        "password": "adebayo",
+        "role": "member",
+        "branch": "lagos"
+    },
+    {
+        "firstName": "Sekinat",
+        "lastName": "Onohinosen",
+        "email": "seunawonugba+member_sekinat@gmail.com",
+        "gender": "female",
+        "phoneNumber": 234080141117,
+        "address": "86 Ajose-adeogun Street 46 153 FatimaVille",
+        "password": "sekinat",
+        "role": "member",
+        "branch": "lagos"
+    },
+    {
+        "firstName": "Chizoba",
+        "lastName": "Balogun",
+        "email": "seunawonugba+member_chizoba@gmail.com",
+        "gender": "female",
+        "phoneNumber": 2348109942720,
+        "address": "29 Obiageli Street 66047 AdeboyeVille",
+        "password": "chizoba",
+        "role": "member",
+        "branch": "lagos"
+    },
+    {
+        "firstName": "Omolara",
+        "lastName": "Latifat",
+        "email": "seunawonugba+member_omolara@gmail.com",
+        "gender": "female",
+        "phoneNumber": 2348158046153,
+        "address": "36 Adeyemo Street 95204 MusaVille",
+        "password": "omolora",
+        "role": "member",
+        "branch": "abuja"
+    },
+    {
+        "firstName": "Temitope",
+        "lastName": "David",
+        "email": "seunawonugba+member_temitope@gmail.com",
+        "gender": "male",
+        "phoneNumber": 2348053349516,
+        "address": "25 Olaoluwa Street 43974 AbisolaVille",
+        "password": "temitope",
+        "role": "member",
+        "branch": "abuja"
+    },
+    {
+        "firstName": "Toluwani",
+        "lastName": "Chibike",
+        "email": "seunawonugba+member_toluwani@gmail.com",
+        "gender": "female",
+        "phoneNumber": 2348033869162,
+        "address": "12 Samuel Street 36 953 JolayemiVille",
+        "password": "toluwani",
+        "role": "member",
+        "branch": "abuja"
+    }
+]
