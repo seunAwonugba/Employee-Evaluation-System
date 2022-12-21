@@ -5,6 +5,7 @@ const { initScheduledJobs, fetchManagers } = require("./cron_job");
 const { router } = require("./router/users");
 require("dotenv").config();
 require("express-async-errors");
+const { errorMiddleware } = require("./middleware/errorMiddleware");
 
 const app = express();
 const host = "localhost";
@@ -28,6 +29,8 @@ app.all("*", (req, res) => {
         data: ReasonPhrases.NOT_FOUND,
     });
 });
+
+app.use(errorMiddleware);
 
 const startServer = async (connectionString) => {
     try {

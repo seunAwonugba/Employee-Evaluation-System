@@ -44,7 +44,7 @@ function App() {
                 );
                 const data = await response.json();
                 setGetMember(data.data);
-                console.log(data.data);
+                // console.log(data.data);
             } catch (error) {
                 console.log(error);
             }
@@ -54,46 +54,48 @@ function App() {
     }, [selectFieldBranchValue]);
 
     const onChangeDropDownBranch = (event) => {
-        event.preventDefault();
-
         const clickedBranch = event.target.value;
         // console.log(clickedBranch);
         setSelectFieldBranchValue(clickedBranch);
     };
 
     const onChangeDropDownMember = (event) => {
-        event.preventDefault();
-
         const clickedMember = event.target.value;
         setSelectFieldMemberValue(clickedMember);
     };
 
     const onWorkQuality = (event) => {
-        event.preventDefault();
-
         const selectedValue = event.target.value;
         setWorkQuality(selectedValue);
     };
 
     const onTaskCompletion = (event) => {
-        event.preventDefault();
-
         const selectedValue = event.target.value;
         setTaskCompletion(selectedValue);
     };
 
     const onOverAndAbroad = (event) => {
-        event.preventDefault();
-
         const selectedValue = event.target.value;
         setOverAndAbroad(selectedValue);
     };
 
     const onCommunication = (event) => {
-        event.preventDefault();
-
         const selectedValue = event.target.value;
         setCommunication(selectedValue);
+    };
+
+    const postManagerResponse = (e) => {
+        e.preventDefault();
+        console.log(`
+        Manager firstName ->${inputFieldFirstNameValue}
+        Manager lastName ->${inputFieldLastNameValue}
+        Manager branch ->${selectFieldBranchValue}
+        Selected member ->${selectFieldMemberValue}
+        Work quality -> ${workQuality}
+        Task completion ->${taskCompletion}
+        Over and abroad ->${overAndAbroad}
+        Communication ->${communication}
+        `);
     };
 
     return (
@@ -165,7 +167,7 @@ function App() {
                             {getMembers.map((item) => {
                                 return (
                                     <option
-                                        value={`${item.firstName}_${item.lastName}`}
+                                        value={`${item.firstName} ${item.lastName}`}
                                         key={item._id}
                                     >
                                         {`${item.firstName} ${item.lastName}`}
@@ -191,7 +193,7 @@ function App() {
                             {employeeRating.map((item) => {
                                 return (
                                     <option
-                                        value={`work_quality_${item}`}
+                                        value={`${item}`}
                                         key={`work_quality_${item}`}
                                     >
                                         {item}
@@ -217,8 +219,8 @@ function App() {
                             {employeeRating.map((item) => {
                                 return (
                                     <option
-                                        value={`task_completion${item}`}
-                                        key={`task_completion${item}`}
+                                        value={`${item}`}
+                                        key={`task_completion_${item}`}
                                     >
                                         {item}
                                     </option>
@@ -243,8 +245,8 @@ function App() {
                             {employeeRating.map((item) => {
                                 return (
                                     <option
-                                        value={`over_and_abroad${item}`}
-                                        key={`over_and_abroad${item}`}
+                                        value={`${item}`}
+                                        key={`over_and_abroad_${item}`}
                                     >
                                         {item}
                                     </option>
@@ -269,8 +271,8 @@ function App() {
                             {employeeRating.map((item) => {
                                 return (
                                     <option
-                                        value={`communication${item}`}
-                                        key={`communication${item}`}
+                                        value={`${item}`}
+                                        key={`communication_${item}`}
                                     >
                                         {item}
                                     </option>
@@ -278,7 +280,11 @@ function App() {
                             })}
                         </select>
                     </div>
-                    <button type="submit" class="block btn task-edit-btn">
+                    <button
+                        type="submit"
+                        class="block btn task-edit-btn"
+                        onClick={postManagerResponse}
+                    >
                         Submit
                     </button>
                     <div class="form-alert"></div>
