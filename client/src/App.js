@@ -149,7 +149,7 @@ function App() {
                         </select>
                     </div>
                     <div class="form-control">
-                        <label for="name">Select member</label>
+                        <label for="select_member">Select member</label>
                         <select
                             name="select_member"
                             class="task-edit-name"
@@ -175,9 +175,9 @@ function App() {
                         </select>
                     </div>
                     <div class="form-control">
-                        <label for="name">Work quality</label>
+                        <label for="work_quality">Work quality</label>
                         <select
-                            name="select_member"
+                            name="work_quality"
                             class="task-edit-name"
                             // value={selectFieldMemberValue}
                             onChange={(e) => {
@@ -201,9 +201,9 @@ function App() {
                         </select>
                     </div>
                     <div class="form-control">
-                        <label for="name">Task completion</label>
+                        <label for="task_completion">Task completion</label>
                         <select
-                            name="select_member"
+                            name="task_completion"
                             class="task-edit-name"
                             // value={selectFieldMemberValue}
                             onChange={(e) => {
@@ -227,9 +227,9 @@ function App() {
                         </select>
                     </div>
                     <div class="form-control">
-                        <label for="name">Over and abroad</label>
+                        <label for="overAndAbroad">Over and abroad</label>
                         <select
-                            name="select_member"
+                            name="overAndAbroad"
                             class="task-edit-name"
                             // value={selectFieldMemberValue}
                             onChange={(e) => {
@@ -253,9 +253,9 @@ function App() {
                         </select>
                     </div>
                     <div class="form-control">
-                        <label for="name">Communication</label>
+                        <label for="communication">Communication</label>
                         <select
-                            name="select_member"
+                            name="communication"
                             class="task-edit-name"
                             // value={selectFieldMemberValue}
                             onChange={(e) => {
