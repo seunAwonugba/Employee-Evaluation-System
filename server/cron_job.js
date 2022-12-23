@@ -17,7 +17,8 @@ const initScheduledJobs = () => {
         for (let i in managers) {
             sendEmails(
                 managers[i].email,
-                `${managers[i].firstName}, Monthly Staff Evaluation For Your Staffs`
+                `${managers[i].firstName}, Monthly Staff Evaluation For Your Staffs`,
+                html `<a href ="http://localhost:3000/" ></a>`
             );
             console.log(`Email Sent to : ${managers[i].email}`);
         }

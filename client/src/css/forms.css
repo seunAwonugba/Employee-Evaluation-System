@@ -52,7 +52,7 @@ html {
     font-size: 112.5%;
 }
 
-body {
+main {
     background: var(--backgroundColor);
     color: var(--textColor);
     font-family: var(--bodyFont);
@@ -200,8 +200,8 @@ textarea {
 .single-task-form {
     width: 90vw;
     max-width: var(--fixed-width);
-    margin-top: 2rem;
-    margin-bottom: 2rem;
+    margin-top: 10%;
+    margin-bottom: 10%;
 }
 .submit-btn {
     width: 100%;
