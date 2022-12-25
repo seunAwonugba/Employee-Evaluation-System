@@ -13,7 +13,7 @@ function sendEmails(to, subject, text) {
         from: "seunawonugba@gmail.com",
         to: to,
         subject: subject,
-        text: text,
+        html: text,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {

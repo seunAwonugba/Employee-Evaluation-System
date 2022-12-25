@@ -1,6 +1,6 @@
 // import "./App.css";
 import { useState, useEffect } from "react";
-import "./css/forms.css";
+import "../css/forms.css";
 
 export default function ManagerForm() {
     const [selectedBranch, setSelectedBranch] = useState("");

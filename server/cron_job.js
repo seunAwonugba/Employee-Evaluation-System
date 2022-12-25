@@ -1,6 +1,7 @@
 const CronJob = require("node-cron");
 const { UserModel } = require("./db/model/user");
 const { sendEmails } = require("./utils/send_mail");
+require("dotenv").config();
 
 // const fetchManagers = async () => {
 //     try {
@@ -18,7 +19,12 @@ const initScheduledJobs = () => {
             sendEmails(
                 managers[i].email,
                 `${managers[i].firstName}, Monthly Staff Evaluation For Your Staffs`,
-                html `<a href ="http://localhost:3000/" ></a>`
+                `<p>Hi ${managers[i].firstName}</p> 
+                <p>Hope you had a great month!<p>
+                <p>Kindly set aside some time to evaluate the staff members under you<p>
+                <p>Please find link below<p>
+                <a href="${process.env.CLIENT_URL}/managersForm">Click Here</a>
+                <p>Regards<p>`
             );
             console.log(`Email Sent to : ${managers[i].email}`);
         }
