@@ -11,7 +11,7 @@ export default function NavBar() {
 
             <ul>
                 <li>
-                    <Link to="/managersForm">Managers</Link>
+                    <Link to="/managers-form">Managers</Link>
                 </li>
                 <li>
                     <Link to="/staffForm">Staffs</Link>

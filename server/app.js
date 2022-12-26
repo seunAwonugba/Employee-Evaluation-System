@@ -1,7 +1,7 @@
 const express = require("express");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { connectDatabase } = require("./db/connect");
-const { initScheduledJobs, fetchManagers } = require("./cron_job");
+const { initScheduledJobs, fetchManagers } = require("./cron-job");
 const { usersRouter } = require("./router/users");
 require("dotenv").config();
 require("express-async-errors");
@@ -13,6 +13,8 @@ const host = "localhost";
 const port = process.env.PORT || 8080;
 
 app.use(express.json());
+
+// console.log(process.env.CONNECTION_STRING);
 
 // initScheduledJobs();
 
@@ -34,9 +36,9 @@ app.all("*", (req, res) => {
 
 app.use(errorMiddleware);
 
-const startServer = async (connectionString) => {
+const startServer = async () => {
     try {
-        await connectDatabase(connectionString);
+        await connectDatabase(process.env.CONNECTION_STRING);
         // fetchManagers()
         app.listen(port, host, () => {
             console.log(`Server is listening on http://${host}:${port}`);
@@ -46,4 +48,4 @@ const startServer = async (connectionString) => {
     }
 };
 
-startServer(process.env.CONNECTION_STRING);
+startServer();

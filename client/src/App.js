@@ -1,6 +1,6 @@
 // import "./App.css";
 import React from "react";
-import ManagerForm from "./forms/ManagerForm";
+import ManagerForm from "./forms/Managers-form";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import StaffForm from "./StaffForm";
@@ -12,8 +12,8 @@ function App() {
             <NavBar />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/managersForm" element={<ManagerForm />} />
-                <Route path="/staffForm" element={<StaffForm />} />
+                <Route path="/managers-form" element={<ManagerForm />} />
+                <Route path="/staff-form" element={<StaffForm />} />
             </Routes>
         </>
     );
