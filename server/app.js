@@ -1,7 +1,7 @@
 const express = require("express");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { connectDatabase } = require("./db/connect");
-const { initScheduledJobs, fetchManagers } = require("./cron-job");
+const { initScheduledJobs, fetchManagers } = require("./cronJob");
 const { usersRouter } = require("./router/users");
 require("dotenv").config();
 require("express-async-errors");

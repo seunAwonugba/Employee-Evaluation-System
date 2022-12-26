@@ -1,6 +1,9 @@
 // import "./App.css";
 import { useState, useEffect } from "react";
 import "../css/forms.css";
+const params = window.location.search;
+const id = new URLSearchParams(params).get("userId");
+console.log(id);
 
 export default function ManagerForm() {
     const [selectedBranch, setSelectedBranch] = useState("");

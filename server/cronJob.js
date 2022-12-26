@@ -1,6 +1,6 @@
 const CronJob = require("node-cron");
 const { UserModel } = require("./db/model/user");
-const { sendEmails } = require("./utils/send-mail");
+const { sendEmails } = require("./utils/sendMail");
 require("dotenv").config();
 
 const initScheduledJobs = () => {

@@ -1,6 +1,6 @@
 // import "./App.css";
 import React from "react";
-import ManagerForm from "./forms/Managers-form";
+import ManagerForm from "./forms/ManagersForm";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import StaffForm from "./StaffForm";
