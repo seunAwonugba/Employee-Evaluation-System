@@ -12,10 +12,7 @@ export default function ManagerForm() {
     const [getUsers, setGetUsers] = useState([{}]);
     const [getMembers, setGetMember] = useState([{}]);
 
-    //input field state values
-    const [inputFieldFirstNameValue, setInputFieldFirstNameValue] =
-        useState("");
-    const [inputFieldLastNameValue, setInputFieldLastNameValue] = useState("");
+    const [managerName, setManagerName] = useState("");
     const [selectFieldBranchValue, setSelectFieldBranchValue] = useState("");
     const [selectFieldMemberValue, setSelectFieldMemberValue] = useState("");
     const [workQuality, setWorkQuality] = useState("");
@@ -48,7 +45,6 @@ export default function ManagerForm() {
                 );
                 const data = await response.json();
                 setGetMember(data.data);
-                // console.log(data.data);
             } catch (error) {
                 console.log(error);
             }
@@ -57,9 +53,24 @@ export default function ManagerForm() {
         fetchMembers();
     }, [selectFieldBranchValue]);
 
+    useEffect(() => {
+        const fetchManager = async () => {
+            try {
+                const response = await fetch(`
+                /api/v1/manager/${id}`);
+                const data = await response.json();
+                console.log(data.data);
+                setManagerName(`${data.data.firstName} ${data.data.lastName}`);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchManager();
+    }, []);
+
     const onChangeDropDownBranch = (event) => {
         const clickedBranch = event.target.value;
-        // console.log(clickedBranch);
         setSelectFieldBranchValue(clickedBranch);
     };
 
@@ -91,8 +102,6 @@ export default function ManagerForm() {
     const postManagerResponse = (e) => {
         e.preventDefault();
         console.log(`
-        Manager firstName ->${inputFieldFirstNameValue}
-        Manager lastName ->${inputFieldLastNameValue}
         Manager branch ->${selectFieldBranchValue}
         Selected member ->${selectFieldMemberValue}
         Work quality -> ${workQuality}
@@ -108,28 +117,8 @@ export default function ManagerForm() {
                     <form class="single-task-form">
                         <h4>Employee Evaluation</h4>
                         <div class="form-control">
-                            <label for="name">First Name</label>
-                            <input
-                                type="text"
-                                name="firstName"
-                                class="task-edit-name"
-                                value={inputFieldFirstNameValue}
-                                onChange={(e) => {
-                                    setInputFieldFirstNameValue(e.target.value);
-                                }}
-                            />
-                        </div>
-                        <div class="form-control">
-                            <label for="name">Last Name</label>
-                            <input
-                                type="text"
-                                name="lastName"
-                                class="task-edit-name"
-                                value={inputFieldLastNameValue}
-                                onChange={(e) => {
-                                    setInputFieldLastNameValue(e.target.value);
-                                }}
-                            />
+                            <label for="name">Manager</label>
+                            <p>{managerName}</p>
                         </div>
                         <div class="form-control">
                             <label for="name">Region</label>

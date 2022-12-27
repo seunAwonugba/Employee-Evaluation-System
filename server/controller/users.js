@@ -1,5 +1,7 @@
-const { StatusCodes } = require("http-status-codes");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { UserModel } = require("../db/model/user");
+const { NotFound } = require("../errors");
+const mongoose = require("mongoose");
 
 const getUsers = async (req, res) => {
     const users = await UserModel.find();
@@ -31,13 +33,23 @@ const getMembersByBranch = async (req, res) => {
     });
 };
 
-const getManager = async (req, res) => {
+const getManager = async (req, res, next) => {
     const { id } = req.params;
-    const manager = await UserModel.findById(id);
-    res.status(StatusCodes.OK).json({
-        success: true,
-        data: manager,
-    });
+
+    if (mongoose.Types.ObjectId.isValid(id)) {
+        const manager = await UserModel.findById(id);
+
+        if (manager) {
+            res.status(StatusCodes.OK).json({
+                success: true,
+                data: manager,
+            });
+        } else {
+            return next(new NotFound(ReasonPhrases.NOT_FOUND));
+        }
+    } else {
+        return next(new NotFound(ReasonPhrases.NOT_FOUND));
+    }
 };
 
 module.exports = { getUsers, getMembersByBranch, getManager };
