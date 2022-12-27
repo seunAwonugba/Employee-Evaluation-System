@@ -7,6 +7,7 @@ require("dotenv").config();
 require("express-async-errors");
 const { errorMiddleware } = require("./middleware/errorMiddleware");
 const { formLinkRouter } = require("./router/formLink");
+const { formRouter } = require("./router/form");
 
 const app = express();
 const host = "localhost";
@@ -20,6 +21,7 @@ app.use(express.json());
 
 app.use("/api/v1/", usersRouter);
 app.use("/api/v1/", formLinkRouter);
+app.use("/api/v1/", formRouter);
 
 app.all("*", (req, res) => {
     res.status(StatusCodes.NOT_FOUND).json({

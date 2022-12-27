@@ -3,39 +3,41 @@ import { useState, useEffect } from "react";
 import "../css/forms.css";
 const params = window.location.search;
 const id = new URLSearchParams(params).get("userId");
-console.log(id);
 
 export default function ManagerForm() {
-    const [selectedBranch, setSelectedBranch] = useState("");
-
     //api response state values
-    const [getUsers, setGetUsers] = useState([{}]);
+    // const [getUsers, setGetUsers] = useState([{}]);
     const [getMembers, setGetMember] = useState([{}]);
 
     const [managerName, setManagerName] = useState("");
+
     const [selectFieldBranchValue, setSelectFieldBranchValue] = useState("");
     const [selectFieldMemberValue, setSelectFieldMemberValue] = useState("");
     const [workQuality, setWorkQuality] = useState("");
+    const [workQualityReason, setWorkQualityReason] = useState("");
     const [taskCompletion, setTaskCompletion] = useState("");
+    const [taskCompletionReason, setTaskCompletionReason] = useState("");
     const [overAndAbroad, setOverAndAbroad] = useState("");
+    const [overAndAbroadReason, setOverAndAbroadReason] = useState("");
     const [communication, setCommunication] = useState("");
+    const [communicationReason, setCommunicationReason] = useState("");
 
     const availableBranch = ["lagos", "abuja"];
     const employeeRating = [0, 1, 2, 3, 4, 5];
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-            try {
-                const response = await fetch("/api/v1/users");
-                const data = await response.json();
-                setGetUsers(data.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchUsers = async () => {
+    //         try {
+    //             const response = await fetch("/api/v1/users");
+    //             const data = await response.json();
+    //             setGetUsers(data.data);
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     };
 
-        fetchUsers();
-    }, []);
+    //     fetchUsers();
+    // }, []);
 
     useEffect(() => {
         const fetchMembers = async () => {
@@ -59,7 +61,7 @@ export default function ManagerForm() {
                 const response = await fetch(`
                 /api/v1/manager/${id}`);
                 const data = await response.json();
-                console.log(data.data);
+                // console.log(data.data);
                 setManagerName(`${data.data.firstName} ${data.data.lastName}`);
             } catch (error) {
                 console.log(error);
@@ -102,13 +104,32 @@ export default function ManagerForm() {
     const postManagerResponse = (e) => {
         e.preventDefault();
         console.log(`
-        Manager branch ->${selectFieldBranchValue}
+        Manager name ->${managerName}
+        Manager id ->${id}
+        Manager region ->${selectFieldBranchValue}
         Selected member ->${selectFieldMemberValue}
         Work quality -> ${workQuality}
+        Work quality reason -> ${workQualityReason}
         Task completion ->${taskCompletion}
+        Task completion reason ->${taskCompletionReason}
         Over and abroad ->${overAndAbroad}
+        Over and abroad reason ->${overAndAbroadReason}
         Communication ->${communication}
+        Communication reason->${communicationReason}
         `);
+    };
+
+    const submitFormData = async () => {
+        const response = await "/";
+    };
+
+    const submitForm = async (e) => {
+        e.preventDefault();
+        await submitFormData();
+        try {
+        } catch (error) {
+            console.log(error);
+        }
     };
     return (
         <body>
@@ -196,6 +217,16 @@ export default function ManagerForm() {
                             </select>
                         </div>
                         <div class="form-control">
+                            <label for="work_quality">Reason</label>
+                            <textarea
+                                value={workQualityReason}
+                                onChange={(e) => {
+                                    setWorkQualityReason(e.target.value);
+                                }}
+                            ></textarea>
+                        </div>
+
+                        <div class="form-control">
                             <label for="task_completion">Task completion</label>
                             <select
                                 name="task_completion"
@@ -220,6 +251,16 @@ export default function ManagerForm() {
                                     );
                                 })}
                             </select>
+                        </div>
+
+                        <div class="form-control">
+                            <label for="work_quality">Reason</label>
+                            <textarea
+                                value={taskCompletionReason}
+                                onChange={(e) => {
+                                    setTaskCompletionReason(e.target.value);
+                                }}
+                            ></textarea>
                         </div>
                         <div class="form-control">
                             <label for="overAndAbroad">Over and abroad</label>
@@ -247,6 +288,16 @@ export default function ManagerForm() {
                                 })}
                             </select>
                         </div>
+
+                        <div class="form-control">
+                            <label for="overAndAbroadReason">Reason</label>
+                            <textarea
+                                value={overAndAbroadReason}
+                                onChange={(e) => {
+                                    setOverAndAbroadReason(e.target.value);
+                                }}
+                            ></textarea>
+                        </div>
                         <div class="form-control">
                             <label for="communication">Communication</label>
                             <select
@@ -272,6 +323,16 @@ export default function ManagerForm() {
                                     );
                                 })}
                             </select>
+                        </div>
+
+                        <div class="form-control">
+                            <label for="work_quality">Reason</label>
+                            <textarea
+                                value={communicationReason}
+                                onChange={(e) => {
+                                    setCommunicationReason(e.target.value);
+                                }}
+                            ></textarea>
                         </div>
                         <button
                             type="submit"
