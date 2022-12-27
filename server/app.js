@@ -18,12 +18,6 @@ app.use(express.json());
 
 // initScheduledJobs();
 
-// app.get("/api/v1/", (req, res) => {
-//     res.status(StatusCodes.OK).json({
-//         success: true,
-//         data: "Home Page",
-//     });
-// });
 app.use("/api/v1/", usersRouter);
 app.use("/api/v1/", formLinkRouter);
 

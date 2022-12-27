@@ -24,11 +24,20 @@ const getMembersByBranch = async (req, res) => {
     const filterMembers = membersByBranch.filter((members) => {
         return members.role == "member";
     });
-    
+
     res.status(StatusCodes.OK).json({
         success: true,
         data: filterMembers,
     });
 };
 
-module.exports = { getUsers, getMembersByBranch };
+const getManager = async (req, res) => {
+    const { id } = req.params;
+    const manager = await UserModel.findById(id);
+    res.status(StatusCodes.OK).json({
+        success: true,
+        data: manager,
+    });
+};
+
+module.exports = { getUsers, getMembersByBranch, getManager };
