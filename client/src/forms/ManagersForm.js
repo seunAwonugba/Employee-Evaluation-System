@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import "../css/forms.css";
 const params = window.location.search;
-const id = new URLSearchParams(params).get("userId");
+const managerId = new URLSearchParams(params).get("userId");
 
 export default function ManagerForm() {
     //api response state values
@@ -25,20 +25,6 @@ export default function ManagerForm() {
     const availableBranch = ["lagos", "abuja"];
     const employeeRating = [0, 1, 2, 3, 4, 5];
 
-    // useEffect(() => {
-    //     const fetchUsers = async () => {
-    //         try {
-    //             const response = await fetch("/api/v1/users");
-    //             const data = await response.json();
-    //             setGetUsers(data.data);
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     };
-
-    //     fetchUsers();
-    // }, []);
-
     useEffect(() => {
         const fetchMembers = async () => {
             try {
@@ -59,9 +45,8 @@ export default function ManagerForm() {
         const fetchManager = async () => {
             try {
                 const response = await fetch(`
-                /api/v1/manager/${id}`);
+                /api/v1/manager/${managerId}`);
                 const data = await response.json();
-                // console.log(data.data);
                 setManagerName(`${data.data.firstName} ${data.data.lastName}`);
             } catch (error) {
                 console.log(error);
@@ -101,41 +86,49 @@ export default function ManagerForm() {
         setCommunication(selectedValue);
     };
 
-    const postManagerResponse = (e) => {
-        e.preventDefault();
-        console.log(`
-        Manager name ->${managerName}
-        Manager id ->${id}
-        Manager region ->${selectFieldBranchValue}
-        Selected member ->${selectFieldMemberValue}
-        Work quality -> ${workQuality}
-        Work quality reason -> ${workQualityReason}
-        Task completion ->${taskCompletion}
-        Task completion reason ->${taskCompletionReason}
-        Over and abroad ->${overAndAbroad}
-        Over and abroad reason ->${overAndAbroadReason}
-        Communication ->${communication}
-        Communication reason->${communicationReason}
-        `);
-    };
-
     const submitFormData = async () => {
-        const response = await "/";
+        const createManagersResponse = await fetch(
+            "http://localhost:8080/api/v1/manager/response",
+            {
+                method: "POST",
+                body: JSON.stringify({
+                    managerName,
+                    managerId,
+                    branch: selectFieldBranchValue,
+                    member: selectFieldMemberValue,
+                    workQuality,
+                    workQualityReason,
+                    taskCompletion,
+                    taskCompletionReason,
+                    overAndAbroad,
+                    overAndAbroadReason,
+                    communication,
+                    communicationReason,
+                }),
+                headers: {
+                    "content-type": "application/json",
+                },
+            }
+        );
+        await createManagersResponse.json();
+
+        console.log(createManagersResponse);
     };
 
     const submitForm = async (e) => {
         e.preventDefault();
-        await submitFormData();
         try {
+            await submitFormData();
         } catch (error) {
             console.log(error);
         }
     };
+
     return (
         <body>
             <main>
                 <div class="container">
-                    <form class="single-task-form">
+                    <form onSubmit={submitForm} class="single-task-form">
                         <h4>Employee Evaluation</h4>
                         <div class="form-control">
                             <label for="name">Manager</label>
@@ -337,7 +330,7 @@ export default function ManagerForm() {
                         <button
                             type="submit"
                             class="block btn task-edit-btn"
-                            onClick={postManagerResponse}
+                            // onClick={postManagerResponse}
                         >
                             Submit
                         </button>

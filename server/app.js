@@ -8,13 +8,14 @@ require("express-async-errors");
 const { errorMiddleware } = require("./middleware/errorMiddleware");
 const { formLinkRouter } = require("./router/formLink");
 const { formRouter } = require("./router/form");
+const cors = require("cors");
 
 const app = express();
 const host = "localhost";
 const port = process.env.PORT || 8080;
 
 app.use(express.json());
-
+app.use(cors());
 // console.log(process.env.CONNECTION_STRING);
 
 // initScheduledJobs();

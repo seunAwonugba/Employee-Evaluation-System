@@ -2,6 +2,7 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { BadRequest } = require("../errors");
 
 const createManagerResponse = async (req, res, next) => {
+    console.log(req.body);
     const {
         managerName,
         managerId,
@@ -16,6 +17,21 @@ const createManagerResponse = async (req, res, next) => {
         communication,
         communicationReason,
     } = req.body;
+
+    // console.log(`
+    //     Manager name ->${managerName}
+    //     Manager id ->${managerId}
+    //     Manager region ->${branch}
+    //     Selected member ->${member}
+    //     Work quality -> ${workQuality}
+    //     Work quality reason -> ${workQualityReason}
+    //     Task completion ->${taskCompletion}
+    //     Task completion reason ->${taskCompletionReason}
+    //     Over and abroad ->${overAndAbroad}
+    //     Over and abroad reason ->${overAndAbroadReason}
+    //     Communication ->${communication}
+    //     Communication reason->${communicationReason}
+    //     `);
 
     if (!branch) {
         return next(new BadRequest("Managers branch is required"));
