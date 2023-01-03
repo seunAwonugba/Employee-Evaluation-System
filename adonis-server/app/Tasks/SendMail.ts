@@ -2,6 +2,7 @@ import { BaseTask } from 'adonis5-scheduler/build'
 import Logger from '@ioc:Adonis/Core/Logger'
 import ManagerModel from 'App/Models/ManagerModel'
 import Mail from '@ioc:Adonis/Addons/Mail'
+import Env from '@ioc:Adonis/Core/Env'
 
 export default class SendMail extends BaseTask {
   public static get schedule() {
@@ -16,19 +17,28 @@ export default class SendMail extends BaseTask {
   }
 
   public async handle() {
-    const sendEmails = async (to, subject) => {
+    const sendEmails = async (to: string, subject: string, name: string, userId: number) => {
       await Mail.send((message) => {
-        message.from('seunawonugba@gmail.com').to(to).subject(subject)
+        message
+          .from('seunawonugba@gmail.com')
+          .to(to)
+          .subject(subject)
+          .htmlView('emails/assessment', {
+            user: { fullName: name },
+            url: `${Env.get('CLIENT_URL')}/managers-form/?userId=${userId}`,
+          })
       })
     }
     // this.logger.info('Handled')
     // Logger.info('Cron job works')
     const managers = await ManagerModel.all()
     for (let i in managers) {
-    //   Logger.info(managers[i])
+        Logger.info(managers[i])
       sendEmails(
         managers[i].email,
-        `${managers[i].firstName} Monthly Staff Evaluation For Your Staffs`
+        `${managers[i].firstName}, Monthly Staff Evaluation For Your Staffs`,
+        managers[i].firstName,
+        managers[i].id
       )
     }
   }
