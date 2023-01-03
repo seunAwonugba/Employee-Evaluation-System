@@ -25,3 +25,4 @@ Route.get('/api/v1', async () => {
 })
 
 Route.get('/api/v1/users', 'UsersController.getUsers')
+// Route.get('/api/v1/send-mail', 'UsersController.sendMailToManagerMonthly')

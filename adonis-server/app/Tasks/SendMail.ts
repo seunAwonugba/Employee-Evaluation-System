@@ -1,0 +1,35 @@
+import { BaseTask } from 'adonis5-scheduler/build'
+import Logger from '@ioc:Adonis/Core/Logger'
+import ManagerModel from 'App/Models/ManagerModel'
+import Mail from '@ioc:Adonis/Addons/Mail'
+
+export default class SendMail extends BaseTask {
+  public static get schedule() {
+    return '*/1 * * * * *'
+  }
+  /**
+   * Set enable use .lock file for block run retry task
+   * Lock file save to `build/tmpTaskLock`
+   */
+  public static get useLock() {
+    return false
+  }
+
+  public async handle() {
+    const sendEmails = async (to, subject) => {
+      await Mail.send((message) => {
+        message.from('seunawonugba@gmail.com').to(to).subject(subject)
+      })
+    }
+    // this.logger.info('Handled')
+    // Logger.info('Cron job works')
+    const managers = await ManagerModel.all()
+    for (let i in managers) {
+    //   Logger.info(managers[i])
+      sendEmails(
+        managers[i].email,
+        `${managers[i].firstName} Monthly Staff Evaluation For Your Staffs`
+      )
+    }
+  }
+}
