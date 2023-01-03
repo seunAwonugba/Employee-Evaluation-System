@@ -7,7 +7,6 @@ const createManagerResponse = async (req, res, next) => {
         managerName,
         managerId,
         branch,
-        member,
         workQuality,
         workQualityReason,
         taskCompletion,
@@ -16,28 +15,16 @@ const createManagerResponse = async (req, res, next) => {
         overAndAbroadReason,
         communication,
         communicationReason,
+        memberId,
     } = req.body;
 
-    // console.log(`
-    //     Manager name ->${managerName}
-    //     Manager id ->${managerId}
-    //     Manager region ->${branch}
-    //     Selected member ->${member}
-    //     Work quality -> ${workQuality}
-    //     Work quality reason -> ${workQualityReason}
-    //     Task completion ->${taskCompletion}
-    //     Task completion reason ->${taskCompletionReason}
-    //     Over and abroad ->${overAndAbroad}
-    //     Over and abroad reason ->${overAndAbroadReason}
-    //     Communication ->${communication}
-    //     Communication reason->${communicationReason}
-    //     `);
+    // console.log(req.body);
 
     if (!branch) {
         return next(new BadRequest("Managers branch is required"));
     }
 
-    if (!member) {
+    if (!memberId) {
         return next(new BadRequest("Kindly select a member to evaluate"));
     }
 

@@ -12,7 +12,7 @@ export default function ManagerForm() {
     const [managerName, setManagerName] = useState("");
 
     const [selectFieldBranchValue, setSelectFieldBranchValue] = useState("");
-    const [selectFieldMemberValue, setSelectFieldMemberValue] = useState("");
+    const [selectFieldMemberId, setSelectFieldMemberId] = useState("");
     const [workQuality, setWorkQuality] = useState("");
     const [workQualityReason, setWorkQualityReason] = useState("");
     const [taskCompletion, setTaskCompletion] = useState("");
@@ -24,6 +24,22 @@ export default function ManagerForm() {
 
     const availableBranch = ["lagos", "abuja"];
     const employeeRating = [0, 1, 2, 3, 4, 5];
+
+    useEffect(() => {
+        const fetchAdonis = async () => {
+            try {
+                const response = await fetch(`/`);
+                const data = await response.json();
+                console.log(data);
+                console.log(data);
+                // setGetMember(data.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchAdonis();
+    }, []);
 
     useEffect(() => {
         const fetchMembers = async () => {
@@ -38,7 +54,7 @@ export default function ManagerForm() {
             }
         };
 
-        fetchMembers();
+        // fetchMembers();
     }, [selectFieldBranchValue]);
 
     useEffect(() => {
@@ -53,7 +69,7 @@ export default function ManagerForm() {
             }
         };
 
-        fetchManager();
+        // fetchManager();
     }, []);
 
     const onChangeDropDownBranch = (event) => {
@@ -63,7 +79,7 @@ export default function ManagerForm() {
 
     const onChangeDropDownMember = (event) => {
         const clickedMember = event.target.value;
-        setSelectFieldMemberValue(clickedMember);
+        setSelectFieldMemberId(clickedMember);
     };
 
     const onWorkQuality = (event) => {
@@ -95,7 +111,7 @@ export default function ManagerForm() {
                     managerName,
                     managerId,
                     branch: selectFieldBranchValue,
-                    member: selectFieldMemberValue,
+                    memberId: selectFieldMemberId,
                     workQuality,
                     workQualityReason,
                     taskCompletion,
@@ -174,7 +190,7 @@ export default function ManagerForm() {
                                 {getMembers.map((item) => {
                                     return (
                                         <option
-                                            value={`${item.firstName} ${item.lastName}`}
+                                            value={`${item._id}`}
                                             key={item._id}
                                         >
                                             {`${item.firstName} ${item.lastName}`}
