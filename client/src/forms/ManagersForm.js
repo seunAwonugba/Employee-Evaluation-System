@@ -1,5 +1,6 @@
 // import "./App.css";
 import { useState, useEffect } from "react";
+import baseUrl from "../base-url/base-url";
 import "../css/forms.css";
 const params = window.location.search;
 const managerId = new URLSearchParams(params).get("userId");
@@ -57,20 +58,22 @@ export default function ManagerForm() {
         // fetchMembers();
     }, [selectFieldBranchValue]);
 
-    useEffect(() => {
-        const fetchManager = async () => {
-            try {
-                const response = await fetch(`
-                /api/v1/manager/${managerId}`);
-                const data = await response.json();
-                setManagerName(`${data.data.firstName} ${data.data.lastName}`);
-            } catch (error) {
-                console.log(error);
-            }
-        };
+    // useEffect(() => {
+    const fetchManager = async () => {
+        try {
+            const response = await baseUrl.get(`/manager/${managerId}`);
+            console.log(response);
+            // const data = await response.json();
+            setManagerName(
+                `${response.data.data.first_name} ${response.data.data.last_name}`
+            );
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
-        // fetchManager();
-    }, []);
+    fetchManager();
+    // }, []);
 
     const onChangeDropDownBranch = (event) => {
         const clickedBranch = event.target.value;

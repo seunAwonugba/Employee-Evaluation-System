@@ -19,6 +19,7 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import UsersController from 'App/Controllers/Http/UsersController'
 
 Route.get('/api/v1', async () => {
   return { success: 'true' }
@@ -26,3 +27,5 @@ Route.get('/api/v1', async () => {
 
 Route.get('/api/v1/users', 'UsersController.getUsers')
 // Route.get('/api/v1/send-mail', 'UsersController.sendMailToManagerMonthly')
+
+Route.get('/api/v1/manager/:id?', 'UsersController.getManager')

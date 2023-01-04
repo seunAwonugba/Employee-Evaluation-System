@@ -16,20 +16,26 @@ export default class UsersController {
     ]
   }
 
-  // public async sendMailToManagerMonthly() {
-  //   await Mail.send((message) => {
-  //     message
-  //       .from('seunawonugba@gmail.com')
-  //       .to('temidayodefr@guerrillamail.info')
-  //       .subject('Welcome')
-  //     // .htmlView('emails/welcome', { name: 'Virk' })
-  //   })
-  // }
+  public async getManager(ctx: HttpContextContract) {
+    const { id } = ctx.params
+    try {
+      const manager = await ManagerModel.find(id)
+      if (manager) {
+        return ctx.response.status(200).json({
+          success: true,
+          data: manager,
+        })
+      } else {
+        return ctx.response.status(404).json({
+          success: false,
+          data: `manager not found`,
+        })
+      }
+    } catch (error) {
+      return ctx.response.status(500).json({
+        success: false,
+        data: `unknown error occurred in /manager/:${id}`,
+      })
+    }
+  }
 }
-
-// function sendManagersMail(params) {
-//   for(let i in ManagerModel){
-
-//   }
-
-// }
