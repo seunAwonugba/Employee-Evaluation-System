@@ -25,8 +25,9 @@ Route.get('/api/v1', async () => {
   return { success: 'true' }
 })
 
-Route.get('/api/v1/users', 'UsersController.getUsers')
-// Route.get('/api/v1/send-mail', 'UsersController.sendMailToManagerMonthly')
-
-Route.get('/api/v1/manager/:id', 'UsersController.getManager')
-Route.get('/api/v1/members/branch', 'UsersController.getMembersByBranch')
+Route.group(() => {
+  Route.get('users', 'UsersController.getUsers')
+  Route.get('manager/:id', 'UsersController.getManager')
+  Route.get('members/branch', 'UsersController.getMembersByBranch')
+  Route.post('evaluation/manager/submit-form', 'FormsController.submitManagerForm')
+}).prefix('api/v1/')

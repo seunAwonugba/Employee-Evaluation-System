@@ -51,7 +51,6 @@ export default class UsersController {
       try {
         // const membersByBranch = await MemberModel.findBy('branch', branch)
         const memberModel = await MemberModel.query().where('branch', branch).select('*')
-    
 
         return ctx.response.status(200).json({
           success: true,

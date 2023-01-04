@@ -1,0 +1,52 @@
+import { DateTime } from 'luxon'
+import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+
+export default class ManagerAnswerModel extends BaseModel {
+  @column({ isPrimary: true })
+  public id: number
+
+  @column()
+  public managerName: string
+
+  @column()
+  public managerId: number
+
+  @column()
+  public branch: string
+
+  @column()
+  public memberId: number
+
+  @column()
+  public workQuality: string
+
+  @column()
+  public workQualityReason: string
+
+  @column()
+  public taskCompletion: string
+
+  @column()
+  public taskCompletionReason: string
+
+  @column()
+  public overAndAbroad: string
+
+  @column()
+  public overAndAbroadReason: string
+
+  @column()
+  public communication: string
+
+  @column()
+  public communicationReason: string
+
+  @column()
+  public evaluationForMonth: string
+
+  @column.dateTime({ autoCreate: true })
+  public createdAt: DateTime
+
+  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  public updatedAt: DateTime
+}

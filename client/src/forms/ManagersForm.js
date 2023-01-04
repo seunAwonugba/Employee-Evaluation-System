@@ -4,6 +4,9 @@ import baseUrl from "../base-url/base-url";
 import "../css/forms.css";
 const params = window.location.search;
 const managerId = new URLSearchParams(params).get("userId");
+const evaluationMonth = new URLSearchParams(params).get("month");
+
+// console.log(currentMonth);
 
 export default function ManagerForm() {
     //api response state values
@@ -21,6 +24,7 @@ export default function ManagerForm() {
     const [overAndAbroadReason, setOverAndAbroadReason] = useState("");
     const [communication, setCommunication] = useState("");
     const [communicationReason, setCommunicationReason] = useState("");
+    // const [evaluationMonth, setEvaluationMonth] = useState("");
 
     const [enableSelectMember, setEnableSelectMember] = useState(true);
 
@@ -39,6 +43,8 @@ export default function ManagerForm() {
     };
 
     fetchManager();
+
+    // setEvaluationMonth(currentMonth);
 
     const onChangeDropDownBranch = async (event) => {
         const clickedBranch = event.target.value;
@@ -122,6 +128,7 @@ export default function ManagerForm() {
         console.log(overAndAbroadReason);
         console.log(communication);
         console.log(communicationReason);
+        console.log(evaluationMonth);
 
         // body: JSON.stringify({
         //     managerName,
@@ -153,6 +160,12 @@ export default function ManagerForm() {
                         <div class="form-control">
                             <label for="name">Manager</label>
                             <p>{managerName}</p>
+                        </div>
+                        <div class="form-control">
+                            <label for="evaluationMonth">
+                                Evaluation month
+                            </label>
+                            <p>{evaluationMonth}</p>
                         </div>
                         <div class="form-control">
                             <label for="name">Region</label>
