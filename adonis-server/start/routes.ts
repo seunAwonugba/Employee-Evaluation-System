@@ -28,4 +28,5 @@ Route.get('/api/v1', async () => {
 Route.get('/api/v1/users', 'UsersController.getUsers')
 // Route.get('/api/v1/send-mail', 'UsersController.sendMailToManagerMonthly')
 
-Route.get('/api/v1/manager/:id?', 'UsersController.getManager')
+Route.get('/api/v1/manager/:id', 'UsersController.getManager')
+Route.get('/api/v1/members/branch', 'UsersController.getMembersByBranch')

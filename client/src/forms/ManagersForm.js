@@ -7,7 +7,6 @@ const managerId = new URLSearchParams(params).get("userId");
 
 export default function ManagerForm() {
     //api response state values
-    // const [getUsers, setGetUsers] = useState([{}]);
     const [getMembers, setGetMember] = useState([{}]);
 
     const [managerName, setManagerName] = useState("");
@@ -23,47 +22,14 @@ export default function ManagerForm() {
     const [communication, setCommunication] = useState("");
     const [communicationReason, setCommunicationReason] = useState("");
 
+    const [enableSelectMember, setEnableSelectMember] = useState(true);
+
     const availableBranch = ["lagos", "abuja"];
     const employeeRating = [0, 1, 2, 3, 4, 5];
 
-    useEffect(() => {
-        const fetchAdonis = async () => {
-            try {
-                const response = await fetch(`/`);
-                const data = await response.json();
-                console.log(data);
-                console.log(data);
-                // setGetMember(data.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        fetchAdonis();
-    }, []);
-
-    useEffect(() => {
-        const fetchMembers = async () => {
-            try {
-                const response = await fetch(
-                    `/api/v1/members/branch/?branch=${selectFieldBranchValue}`
-                );
-                const data = await response.json();
-                setGetMember(data.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        // fetchMembers();
-    }, [selectFieldBranchValue]);
-
-    // useEffect(() => {
     const fetchManager = async () => {
         try {
             const response = await baseUrl.get(`/manager/${managerId}`);
-            console.log(response);
-            // const data = await response.json();
             setManagerName(
                 `${response.data.data.first_name} ${response.data.data.last_name}`
             );
@@ -73,11 +39,19 @@ export default function ManagerForm() {
     };
 
     fetchManager();
-    // }, []);
 
-    const onChangeDropDownBranch = (event) => {
+    const onChangeDropDownBranch = async (event) => {
         const clickedBranch = event.target.value;
         setSelectFieldBranchValue(clickedBranch);
+        if (clickedBranch) {
+            setEnableSelectMember(false);
+            const fetchMembers = await baseUrl.get(
+                `/members/branch/?branch=${clickedBranch}`
+            );
+            setGetMember(fetchMembers.data.data);
+        } else {
+            setEnableSelectMember(true);
+        }
     };
 
     const onChangeDropDownMember = (event) => {
@@ -136,11 +110,38 @@ export default function ManagerForm() {
 
     const submitForm = async (e) => {
         e.preventDefault();
-        try {
-            await submitFormData();
-        } catch (error) {
-            console.log(error);
-        }
+        console.log(managerName);
+        console.log(managerId);
+        console.log(selectFieldBranchValue);
+        console.log(selectFieldMemberId);
+        console.log(workQuality);
+        console.log(workQualityReason);
+        console.log(taskCompletion);
+        console.log(taskCompletionReason);
+        console.log(overAndAbroad);
+        console.log(overAndAbroadReason);
+        console.log(communication);
+        console.log(communicationReason);
+
+        // body: JSON.stringify({
+        //     managerName,
+        //     managerId,
+        //     branch: selectFieldBranchValue,
+        //     memberId: selectFieldMemberId,
+        //     workQuality,
+        //     workQualityReason,
+        //     taskCompletion,
+        //     taskCompletionReason,
+        //     overAndAbroad,
+        //     overAndAbroadReason,
+        //     communication,
+        //     communicationReason,
+        // })
+        // try {
+        //     await submitFormData();
+        // } catch (error) {
+        //     console.log(error);
+        // }
     };
 
     return (
@@ -185,6 +186,8 @@ export default function ManagerForm() {
                                 onChange={(e) => {
                                     onChangeDropDownMember(e);
                                 }}
+                                disabled={enableSelectMember}
+                                // disabled={enableSelectMember}
                             >
                                 <option disabled selected value>
                                     {" "}
@@ -193,10 +196,10 @@ export default function ManagerForm() {
                                 {getMembers.map((item) => {
                                     return (
                                         <option
-                                            value={`${item._id}`}
-                                            key={item._id}
+                                            value={`${item.id}`}
+                                            key={item.id}
                                         >
-                                            {`${item.firstName} ${item.lastName}`}
+                                            {`${item.first_name} ${item.last_name}`}
                                         </option>
                                     );
                                 })}

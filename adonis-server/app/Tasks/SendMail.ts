@@ -33,7 +33,7 @@ export default class SendMail extends BaseTask {
     // Logger.info('Cron job works')
     const managers = await ManagerModel.all()
     for (let i in managers) {
-      Logger.info(managers[i])
+      // Logger.info(managers[i])
       sendEmails(
         managers[i].email,
         `${managers[i].firstName}, Monthly Staff Evaluation For Your Staffs`,
