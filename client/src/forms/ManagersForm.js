@@ -152,7 +152,7 @@ export default function ManagerForm() {
                             <p>{evaluationMonth}</p>
                         </div>
                         <div className="form-control">
-                            <label for="name">Region</label>
+                            <label for="name">Branch</label>
                             <select
                                 name="region"
                                 className="task-edit-name"
@@ -178,13 +178,10 @@ export default function ManagerForm() {
                             <select
                                 name="select_member"
                                 className="task-edit-name"
-                                // value={selectFieldMemberValue}
                                 onChange={(e) => {
                                     onChangeDropDownMember(e);
                                 }}
                                 disabled={enableSelectMember}
-                                required
-                                // disabled={enableSelectMember}
                             >
                                 <option disabled selected value>
                                     {" "}
@@ -207,7 +204,6 @@ export default function ManagerForm() {
                             <select
                                 name="work_quality"
                                 className="task-edit-name"
-                                // value={selectFieldMemberValue}
                                 onChange={(e) => {
                                     onWorkQuality(e);
                                 }}
@@ -245,7 +241,6 @@ export default function ManagerForm() {
                             <select
                                 name="task_completion"
                                 className="task-edit-name"
-                                // value={selectFieldMemberValue}
                                 onChange={(e) => {
                                     onTaskCompletion(e);
                                 }}
@@ -283,7 +278,6 @@ export default function ManagerForm() {
                             <select
                                 name="overAndAbroad"
                                 className="task-edit-name"
-                                // value={selectFieldMemberValue}
                                 onChange={(e) => {
                                     onOverAndAbroad(e);
                                 }}
@@ -321,7 +315,6 @@ export default function ManagerForm() {
                             <select
                                 name="communication"
                                 className="task-edit-name"
-                                // value={selectFieldMemberValue}
                                 onChange={(e) => {
                                     onCommunication(e);
                                 }}
@@ -357,7 +350,6 @@ export default function ManagerForm() {
                         <button
                             type="submit"
                             className="block btn task-edit-btn"
-                            // onClick={postManagerResponse}
                         >
                             Submit
                         </button>

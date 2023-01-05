@@ -19,7 +19,6 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import UsersController from 'App/Controllers/Http/UsersController'
 
 Route.get('/api/v1', async () => {
   return { success: 'true' }
@@ -27,7 +26,12 @@ Route.get('/api/v1', async () => {
 
 Route.group(() => {
   Route.get('users', 'UsersController.getUsers')
+
   Route.get('manager/:id', 'UsersController.getManager')
+  Route.get('member/:id', 'UsersController.getMember')
+
   Route.get('members/branch', 'UsersController.getMembersByBranch')
+  Route.get('managers/branch', 'UsersController.getManagersByBranch')
+
   Route.post('evaluation/manager/submit-form', 'FormsController.submitManagerForm')
 }).prefix('api/v1/')

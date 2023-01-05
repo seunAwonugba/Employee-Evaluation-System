@@ -42,6 +42,30 @@ export default class UsersController {
       })
     }
   }
+  public async getMember(ctx: HttpContextContract) {
+    const { id } = ctx.params
+    try {
+      const member = await MemberModel.find(id)
+      // const managerDb = await Database.from('manager_models').where('id', id)
+      // const managerModel = await ManagerModel.query().where('id', id).select('*')
+      if (member) {
+        return ctx.response.status(200).json({
+          success: true,
+          data: member,
+        })
+      } else {
+        return ctx.response.status(404).json({
+          success: false,
+          data: `member not found`,
+        })
+      }
+    } catch (error) {
+      return ctx.response.status(500).json({
+        success: false,
+        data: `unknown error occurred in /member/:${id}`,
+      })
+    }
+  }
 
   public async getMembersByBranch(ctx: HttpContextContract) {
     const branch = ctx.request.qs().branch
@@ -70,6 +94,43 @@ export default class UsersController {
         return ctx.response.status(200).json({
           success: true,
           data: members,
+        })
+      } catch (error) {
+        return ctx.response.status(404).json({
+          success: true,
+          data: 'members not found',
+        })
+      }
+    }
+  }
+
+  public async getManagersByBranch(ctx: HttpContextContract) {
+    const branch = ctx.request.qs().branch
+    // console.log(branch)
+
+    if (branch) {
+      try {
+        // const membersByBranch = await MemberModel.findBy('branch', branch)
+        const managerModel = await ManagerModel.query().where('branch', branch).select('*')
+
+        return ctx.response.status(200).json({
+          success: true,
+          data: managerModel,
+        })
+      } catch (error) {
+        return ctx.response.status(404).json({
+          success: true,
+          data: 'member not found',
+        })
+      }
+    } else {
+      try {
+        const manager = await ManagerModel.all()
+        Logger.info(`${manager}`)
+
+        return ctx.response.status(200).json({
+          success: true,
+          data: manager,
         })
       } catch (error) {
         return ctx.response.status(404).json({
