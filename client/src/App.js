@@ -3,8 +3,9 @@ import React from "react";
 import ManagerForm from "./forms/ManagersForm";
 import { Route, Routes } from "react-router-dom";
 import Home from "./Home";
-import StaffForm from "./StaffForm";
+import StaffForm from "./forms/StaffForm";
 import NavBar from "./NavBar";
+import { ToastContainer, toast } from "react-toastify";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/managers-form" element={<ManagerForm />} />
                 <Route path="/staff-form" element={<StaffForm />} />
             </Routes>
+            <ToastContainer />
         </>
     );
 }

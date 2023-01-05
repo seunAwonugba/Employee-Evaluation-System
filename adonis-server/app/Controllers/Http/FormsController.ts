@@ -41,24 +41,24 @@ export default class FormsController {
         data: saveManagerAnswer,
       })
     } catch (error) {
-      return ctx.response.status(200).json({
+      return ctx.response.status(500).json({
         success: false,
         data: 'Unknown error occurred, please try again',
       })
     }
 
-    console.log(managerName)
-    console.log(managerId)
-    console.log(branch)
-    console.log(memberId)
-    console.log(workQuality)
-    console.log(workQualityReason)
-    console.log(taskCompletion)
-    console.log(taskCompletionReason)
-    console.log(overAndAbroad)
-    console.log(overAndAbroadReason)
-    console.log(communication)
-    console.log(communicationReason)
-    console.log(evaluationForMonth)
+    // console.log(managerName)
+    // console.log(managerId)
+    // console.log(branch)
+    // console.log(memberId)
+    // console.log(workQuality)
+    // console.log(workQualityReason)
+    // console.log(taskCompletion)
+    // console.log(taskCompletionReason)
+    // console.log(overAndAbroad)
+    // console.log(overAndAbroadReason)
+    // console.log(communication)
+    // console.log(communicationReason)
+    // console.log(evaluationForMonth)
   }
 }

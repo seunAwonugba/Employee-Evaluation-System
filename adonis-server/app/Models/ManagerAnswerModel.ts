@@ -18,25 +18,25 @@ export default class ManagerAnswerModel extends BaseModel {
   public memberId: number
 
   @column()
-  public workQuality: string
+  public workQuality: number
 
   @column()
   public workQualityReason: string
 
   @column()
-  public taskCompletion: string
+  public taskCompletion: number
 
   @column()
   public taskCompletionReason: string
 
   @column()
-  public overAndAbroad: string
+  public overAndAbroad: number
 
   @column()
   public overAndAbroadReason: string
 
   @column()
-  public communication: string
+  public communication: number
 
   @column()
   public communicationReason: string

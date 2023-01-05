@@ -2,6 +2,9 @@
 import { useState, useEffect } from "react";
 import baseUrl from "../base-url/base-url";
 import "../css/forms.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 const params = window.location.search;
 const managerId = new URLSearchParams(params).get("userId");
 const evaluationMonth = new URLSearchParams(params).get("month");
@@ -9,6 +12,8 @@ const evaluationMonth = new URLSearchParams(params).get("month");
 // console.log(currentMonth);
 
 export default function ManagerForm() {
+    const navigate = useNavigate();
+
     //api response state values
     const [getMembers, setGetMember] = useState([{}]);
 
@@ -24,27 +29,32 @@ export default function ManagerForm() {
     const [overAndAbroadReason, setOverAndAbroadReason] = useState("");
     const [communication, setCommunication] = useState("");
     const [communicationReason, setCommunicationReason] = useState("");
-    // const [evaluationMonth, setEvaluationMonth] = useState("");
 
     const [enableSelectMember, setEnableSelectMember] = useState(true);
 
     const availableBranch = ["lagos", "abuja"];
     const employeeRating = [0, 1, 2, 3, 4, 5];
 
-    const fetchManager = async () => {
-        try {
-            const response = await baseUrl.get(`/manager/${managerId}`);
-            setManagerName(
-                `${response.data.data.first_name} ${response.data.data.last_name}`
-            );
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const [isLoading, setIsLoading] = useState(false);
 
-    fetchManager();
+    useEffect(() => {
+        setIsLoading(true);
+        const fetchManager = async () => {
+            try {
+                const response = await baseUrl.get(`/manager/${managerId}`);
+                setManagerName(
+                    `${response.data.data.first_name} ${response.data.data.last_name}`
+                );
 
-    // setEvaluationMonth(currentMonth);
+                setIsLoading(false);
+            } catch (error) {
+                setIsLoading(false);
+                console.log(error);
+            }
+        };
+
+        fetchManager();
+    }, []);
 
     const onChangeDropDownBranch = async (event) => {
         const clickedBranch = event.target.value;
@@ -85,94 +95,67 @@ export default function ManagerForm() {
         setCommunication(selectedValue);
     };
 
-    const submitFormData = async () => {
-        const createManagersResponse = await fetch(
-            "http://localhost:8080/api/v1/manager/response",
-            {
-                method: "POST",
-                body: JSON.stringify({
-                    managerName,
-                    managerId,
-                    branch: selectFieldBranchValue,
-                    memberId: selectFieldMemberId,
-                    workQuality,
-                    workQualityReason,
-                    taskCompletion,
-                    taskCompletionReason,
-                    overAndAbroad,
-                    overAndAbroadReason,
-                    communication,
-                    communicationReason,
-                }),
-                headers: {
-                    "content-type": "application/json",
-                },
-            }
-        );
-        await createManagersResponse.json();
-
-        console.log(createManagersResponse);
-    };
-
     const submitForm = async (e) => {
         e.preventDefault();
-        console.log(managerName);
-        console.log(managerId);
-        console.log(selectFieldBranchValue);
-        console.log(selectFieldMemberId);
-        console.log(workQuality);
-        console.log(workQualityReason);
-        console.log(taskCompletion);
-        console.log(taskCompletionReason);
-        console.log(overAndAbroad);
-        console.log(overAndAbroadReason);
-        console.log(communication);
-        console.log(communicationReason);
-        console.log(evaluationMonth);
+        const userResponse = {
+            managerName,
+            managerId,
+            branch: selectFieldBranchValue,
+            memberId: selectFieldMemberId,
+            workQuality,
+            workQualityReason,
+            taskCompletion,
+            taskCompletionReason,
+            overAndAbroad,
+            overAndAbroadReason,
+            communication,
+            communicationReason,
+            evaluationForMonth: evaluationMonth,
+        };
 
-        // body: JSON.stringify({
-        //     managerName,
-        //     managerId,
-        //     branch: selectFieldBranchValue,
-        //     memberId: selectFieldMemberId,
-        //     workQuality,
-        //     workQualityReason,
-        //     taskCompletion,
-        //     taskCompletionReason,
-        //     overAndAbroad,
-        //     overAndAbroadReason,
-        //     communication,
-        //     communicationReason,
-        // })
-        // try {
-        //     await submitFormData();
-        // } catch (error) {
-        //     console.log(error);
-        // }
+        try {
+            const response = await baseUrl.post(
+                "evaluation/manager/submit-form",
+                userResponse
+            );
+            console.log(response);
+
+            if (response.data.success === true) {
+                toast.success(`Evaluation submitted successfully`);
+                navigate("/");
+            } else {
+                toast.error(response.data.data);
+            }
+        } catch (error) {
+            console.log(error);
+            toast("All fields are required");
+        }
     };
 
-    return (
+    return isLoading ? (
+        <p>Loading...</p>
+    ) : (
         <body>
             <main>
-                <div class="container">
-                    <form onSubmit={submitForm} class="single-task-form">
+                <div className="container">
+                    <form onSubmit={submitForm} className="single-task-form">
                         <h4>Employee Evaluation</h4>
-                        <div class="form-control">
+                        <div className="form-control">
                             <label for="name">Manager</label>
+
                             <p>{managerName}</p>
                         </div>
-                        <div class="form-control">
+                        <div className="form-control">
                             <label for="evaluationMonth">
                                 Evaluation month
                             </label>
                             <p>{evaluationMonth}</p>
                         </div>
-                        <div class="form-control">
+                        <div className="form-control">
                             <label for="name">Region</label>
                             <select
                                 name="region"
-                                class="task-edit-name"
-                                // value={selectFieldBranchValue}
+                                className="task-edit-name"
                                 onChange={(e) => {
                                     onChangeDropDownBranch(e);
                                 }}
@@ -190,16 +173,17 @@ export default function ManagerForm() {
                                 })}
                             </select>
                         </div>
-                        <div class="form-control">
+                        <div className="form-control">
                             <label for="select_member">Select member</label>
                             <select
                                 name="select_member"
-                                class="task-edit-name"
+                                className="task-edit-name"
                                 // value={selectFieldMemberValue}
                                 onChange={(e) => {
                                     onChangeDropDownMember(e);
                                 }}
                                 disabled={enableSelectMember}
+                                required
                                 // disabled={enableSelectMember}
                             >
                                 <option disabled selected value>
@@ -218,15 +202,16 @@ export default function ManagerForm() {
                                 })}
                             </select>
                         </div>
-                        <div class="form-control">
+                        <div className="form-control">
                             <label for="work_quality">Work quality</label>
                             <select
                                 name="work_quality"
-                                class="task-edit-name"
+                                className="task-edit-name"
                                 // value={selectFieldMemberValue}
                                 onChange={(e) => {
                                     onWorkQuality(e);
                                 }}
+                                required
                             >
                                 <option disabled selected value>
                                     {" "}
@@ -244,25 +229,27 @@ export default function ManagerForm() {
                                 })}
                             </select>
                         </div>
-                        <div class="form-control">
+                        <div className="form-control">
                             <label for="work_quality">Reason</label>
                             <textarea
                                 value={workQualityReason}
                                 onChange={(e) => {
                                     setWorkQualityReason(e.target.value);
                                 }}
+                                required
                             ></textarea>
                         </div>
 
-                        <div class="form-control">
+                        <div className="form-control">
                             <label for="task_completion">Task completion</label>
                             <select
                                 name="task_completion"
-                                class="task-edit-name"
+                                className="task-edit-name"
                                 // value={selectFieldMemberValue}
                                 onChange={(e) => {
                                     onTaskCompletion(e);
                                 }}
+                                required
                             >
                                 <option disabled selected value>
                                     {" "}
@@ -281,24 +268,26 @@ export default function ManagerForm() {
                             </select>
                         </div>
 
-                        <div class="form-control">
+                        <div className="form-control">
                             <label for="work_quality">Reason</label>
                             <textarea
                                 value={taskCompletionReason}
                                 onChange={(e) => {
                                     setTaskCompletionReason(e.target.value);
                                 }}
+                                required
                             ></textarea>
                         </div>
-                        <div class="form-control">
+                        <div className="form-control">
                             <label for="overAndAbroad">Over and abroad</label>
                             <select
                                 name="overAndAbroad"
-                                class="task-edit-name"
+                                className="task-edit-name"
                                 // value={selectFieldMemberValue}
                                 onChange={(e) => {
                                     onOverAndAbroad(e);
                                 }}
+                                required
                             >
                                 <option disabled selected value>
                                     {" "}
@@ -317,24 +306,26 @@ export default function ManagerForm() {
                             </select>
                         </div>
 
-                        <div class="form-control">
+                        <div className="form-control">
                             <label for="overAndAbroadReason">Reason</label>
                             <textarea
                                 value={overAndAbroadReason}
                                 onChange={(e) => {
                                     setOverAndAbroadReason(e.target.value);
                                 }}
+                                required
                             ></textarea>
                         </div>
-                        <div class="form-control">
+                        <div className="form-control">
                             <label for="communication">Communication</label>
                             <select
                                 name="communication"
-                                class="task-edit-name"
+                                className="task-edit-name"
                                 // value={selectFieldMemberValue}
                                 onChange={(e) => {
                                     onCommunication(e);
                                 }}
+                                required
                             >
                                 <option disabled selected value>
                                     {" "}
@@ -353,23 +344,24 @@ export default function ManagerForm() {
                             </select>
                         </div>
 
-                        <div class="form-control">
+                        <div className="form-control">
                             <label for="work_quality">Reason</label>
                             <textarea
                                 value={communicationReason}
                                 onChange={(e) => {
                                     setCommunicationReason(e.target.value);
                                 }}
+                                required
                             ></textarea>
                         </div>
                         <button
                             type="submit"
-                            class="block btn task-edit-btn"
+                            className="block btn task-edit-btn"
                             // onClick={postManagerResponse}
                         >
                             Submit
                         </button>
-                        <div class="form-alert"></div>
+                        <div className="form-alert"></div>
                     </form>
                 </div>
             </main>
