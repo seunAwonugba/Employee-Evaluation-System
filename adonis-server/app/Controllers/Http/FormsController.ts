@@ -46,19 +46,5 @@ export default class FormsController {
         data: 'Unknown error occurred, please try again',
       })
     }
-
-    // console.log(managerName)
-    // console.log(managerId)
-    // console.log(branch)
-    // console.log(memberId)
-    // console.log(workQuality)
-    // console.log(workQualityReason)
-    // console.log(taskCompletion)
-    // console.log(taskCompletionReason)
-    // console.log(overAndAbroad)
-    // console.log(overAndAbroadReason)
-    // console.log(communication)
-    // console.log(communicationReason)
-    // console.log(evaluationForMonth)
   }
 }
