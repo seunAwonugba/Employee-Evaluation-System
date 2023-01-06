@@ -13,7 +13,7 @@ export default class SendMail extends BaseTask {
    * Lock file save to `build/tmpTaskLock`
    */
   public static get useLock() {
-    return false
+    return true
   }
 
   public async handle() {

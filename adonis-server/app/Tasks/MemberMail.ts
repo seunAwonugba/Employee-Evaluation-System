@@ -6,24 +6,24 @@ import Logger from '@ioc:Adonis/Core/Logger'
 
 export default class MemberMail extends BaseTask {
   public static get schedule() {
-    return '* * * * * *'
+    return '*/1 * * * * *'
   }
   /**
    * Set enable use .lock file for block run retry task
    * Lock file save to `build/tmpTaskLock`
    */
   public static get useLock() {
-    return false
+    return true
   }
 
   public async handle() {
     // this.logger.info('Handled')
     const currentMonth = new Date().toLocaleString('default', { month: 'long' })
 
-    const sendMemberEmails = async (
+    const sendMail = async (
       to: string,
       subject: string,
-      userId: string,
+      userId: number,
       month: string,
       name: string
     ) => {
@@ -45,8 +45,7 @@ export default class MemberMail extends BaseTask {
     const members = await MemberModel.all()
     for (let i in members) {
       Logger.info(members[i])
-
-      sendMemberEmails(
+      sendMail(
         members[i].email,
         `${members[i].firstName}, Monthly Staff Evaluation For Your Manager`,
         members[i].id,

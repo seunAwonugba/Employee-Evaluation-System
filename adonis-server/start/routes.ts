@@ -34,4 +34,5 @@ Route.group(() => {
   Route.get('managers/branch', 'UsersController.getManagersByBranch')
 
   Route.post('evaluation/manager/submit-form', 'FormsController.submitManagerForm')
+  Route.post('evaluation/member/submit-form', 'FormsController.submitMemberForm')
 }).prefix('api/v1/')
