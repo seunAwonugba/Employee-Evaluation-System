@@ -16,7 +16,7 @@ const managersMonthlyEvaluation = () => {
   ) => {
     await Mail.send((message) => {
       message
-        .from('seunawonugba@gmail.com')
+        .from('jalyn12@ethereal.email')
         .to(to)
         .subject(subject)
         .htmlView('emails/assessment', {
@@ -28,12 +28,15 @@ const managersMonthlyEvaluation = () => {
         })
     })
   }
-  const mail = cron.schedule('*/1 * * * *', async () => {
+
+  
+  // "At 09:00, on day 1 of the month"
+
+  const mail = cron.schedule('0 9 1 * *', async () => {
     const managers = await ManagerModel.all()
-    const members = await MemberModel.all()
 
     managers.map((manager) => {
-      Logger.info(manager)
+      // Logger.info(manager)
 
       sendEmails(
         manager.email,

@@ -64,6 +64,7 @@ export default function ManagerForm() {
             const fetchMembers = await baseUrl.get(
                 `/members/branch/?branch=${clickedBranch}`
             );
+            console.log(fetchMembers);
             setGetMember(fetchMembers.data.data);
         } else {
             setEnableSelectMember(true);
@@ -118,7 +119,7 @@ export default function ManagerForm() {
                 "evaluation/manager/submit-form",
                 userResponse
             );
-            console.log(response);
+            // console.log(response);
 
             if (response.data.success === true) {
                 toast.success(`Evaluation submitted successfully`);
@@ -149,7 +150,7 @@ export default function ManagerForm() {
                             <label for="evaluationMonth">
                                 Evaluation month
                             </label>
-                            <p>{evaluationMonth}</p>
+                            <p className="eval-month">{evaluationMonth}</p>
                         </div>
                         <div className="form-control">
                             <label for="name">Branch</label>
@@ -228,7 +229,7 @@ export default function ManagerForm() {
                         <div className="form-control">
                             <label for="work_quality">Reason</label>
                             <textarea
-                                value={workQualityReason}
+                                value={workQualityReason.trim()}
                                 onChange={(e) => {
                                     setWorkQualityReason(e.target.value);
                                 }}
@@ -266,7 +267,7 @@ export default function ManagerForm() {
                         <div className="form-control">
                             <label for="work_quality">Reason</label>
                             <textarea
-                                value={taskCompletionReason}
+                                value={taskCompletionReason.trim()}
                                 onChange={(e) => {
                                     setTaskCompletionReason(e.target.value);
                                 }}
@@ -303,7 +304,7 @@ export default function ManagerForm() {
                         <div className="form-control">
                             <label for="overAndAbroadReason">Reason</label>
                             <textarea
-                                value={overAndAbroadReason}
+                                value={overAndAbroadReason.trim()}
                                 onChange={(e) => {
                                     setOverAndAbroadReason(e.target.value);
                                 }}
@@ -340,7 +341,7 @@ export default function ManagerForm() {
                         <div className="form-control">
                             <label for="work_quality">Reason</label>
                             <textarea
-                                value={communicationReason}
+                                value={communicationReason.trim()}
                                 onChange={(e) => {
                                     setCommunicationReason(e.target.value);
                                 }}

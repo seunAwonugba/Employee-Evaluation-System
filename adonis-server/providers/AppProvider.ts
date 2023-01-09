@@ -15,6 +15,7 @@ export default class AppProvider {
     // App is ready
     // require('../app/Cron/index')
     import('../app/Cron/index')
+    // import('../app/Moments/index')
   }
 
   public async shutdown() {

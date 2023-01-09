@@ -10,13 +10,15 @@ const memberId = new URLSearchParams(params).get("userId");
 const evaluationMonth = new URLSearchParams(params).get("month");
 
 export default function StaffForm() {
+    const navigate = useNavigate();
+
     const [isLoading, setIsLoading] = useState(false);
     const [enableSelectManager, setEnableSelectManager] = useState(true);
 
     const [memberName, setMemberName] = useState("");
 
     const [selectFieldBranchValue, setSelectFieldBranchValue] = useState("");
-    const [selectFieldMemberId, setSelectFieldManagerId] = useState("");
+    const [selectFieldManagerId, setSelectFieldManagerId] = useState("");
     const [workQuality, setWorkQuality] = useState("");
     const [workQualityReason, setWorkQualityReason] = useState("");
     const [taskCompletion, setTaskCompletion] = useState("");
@@ -37,6 +39,7 @@ export default function StaffForm() {
         const fetchMember = async () => {
             try {
                 const response = await baseUrl.get(`/member/${memberId}`);
+                // console.log(response);
                 setMemberName(
                     `${response.data.data.first_name} ${response.data.data.last_name}`
                 );
@@ -91,16 +94,50 @@ export default function StaffForm() {
         setCommunication(selectedValue);
     };
 
+    const submitForm = async (e) => {
+        e.preventDefault();
+        const userResponse = {
+            memberName,
+            memberId,
+            branch: selectFieldBranchValue,
+            managerId: selectFieldManagerId,
+            workQuality,
+            workQualityReason,
+            taskCompletion,
+            taskCompletionReason,
+            overAndAbroad,
+            overAndAbroadReason,
+            communication,
+            communicationReason,
+            evaluationForMonth: evaluationMonth,
+        };
+
+        try {
+            const response = await baseUrl.post(
+                "evaluation/member/submit-form",
+                userResponse
+            );
+            // console.log(response);
+
+            if (response.data.success === true) {
+                toast.success(`Evaluation submitted successfully`);
+                navigate("/");
+            } else {
+                toast.error(response.data.data);
+            }
+        } catch (error) {
+            console.log(error);
+            toast("All fields are required");
+        }
+    };
+
     return isLoading ? (
         <p>Loading...</p>
     ) : (
         <body>
             <main>
                 <div className="container">
-                    <form
-                        // onSubmit={submitForm}
-                        className="single-task-form"
-                    >
+                    <form onSubmit={submitForm} className="single-task-form">
                         <h4>Employee Evaluation</h4>
                         <div className="form-control">
                             <label for="name">Staff</label>
@@ -111,7 +148,7 @@ export default function StaffForm() {
                             <label for="evaluationMonth">
                                 Evaluation month
                             </label>
-                            <p>{evaluationMonth}</p>
+                            <p className="eval-month">{evaluationMonth}</p>
                         </div>
                         <div className="form-control">
                             <label for="name">Branch</label>
@@ -190,7 +227,7 @@ export default function StaffForm() {
                         <div className="form-control">
                             <label for="work_quality">Reason</label>
                             <textarea
-                                value={workQualityReason}
+                                value={workQualityReason.trim()}
                                 onChange={(e) => {
                                     setWorkQualityReason(e.target.value);
                                 }}
@@ -228,7 +265,7 @@ export default function StaffForm() {
                         <div className="form-control">
                             <label for="work_quality">Reason</label>
                             <textarea
-                                value={taskCompletionReason}
+                                value={taskCompletionReason.trim()}
                                 onChange={(e) => {
                                     setTaskCompletionReason(e.target.value);
                                 }}
@@ -265,7 +302,7 @@ export default function StaffForm() {
                         <div className="form-control">
                             <label for="overAndAbroadReason">Reason</label>
                             <textarea
-                                value={overAndAbroadReason}
+                                value={overAndAbroadReason.trim()}
                                 onChange={(e) => {
                                     setOverAndAbroadReason(e.target.value);
                                 }}
@@ -302,7 +339,7 @@ export default function StaffForm() {
                         <div className="form-control">
                             <label for="work_quality">Reason</label>
                             <textarea
-                                value={communicationReason}
+                                value={communicationReason.trim()}
                                 onChange={(e) => {
                                     setCommunicationReason(e.target.value);
                                 }}

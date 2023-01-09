@@ -39,8 +39,9 @@
     padding: 0.25rem;
 }
 
-.top-nav-bar li:active {
+.top-nav-bar li {
+    display: none;
 }
 
-.top-nav-bar li:hover {
+.top-nav-bar li {
 }

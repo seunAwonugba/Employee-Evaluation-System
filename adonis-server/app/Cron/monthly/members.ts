@@ -16,20 +16,23 @@ const membersMonthlyEvaluation = () => {
   ) => {
     await Mail.send((message) => {
       message
-        .from('seun.a@autochek.africa')
+        .from('jalyn12@ethereal.email')
         .to(to)
         .subject(subject)
         .htmlView('emails/member_assessment', {
           user: { fullName: name },
           url: `${Env.get(
             'CLIENT_URL'
-          )}/managers-form/?userId=${userId}&month=${month.toLowerCase()}`,
+          )}/members-form/?userId=${userId}&month=${month.toLowerCase()}`,
           month: { month: month },
         })
     })
   }
 
+  // "At 09:00, on day 1 of the month"
+
   cron.schedule('*/1 * * * *', async () => {
+    // 0 9 1 * *
     const members = await MemberModel.all()
 
     members.map((member) => {
