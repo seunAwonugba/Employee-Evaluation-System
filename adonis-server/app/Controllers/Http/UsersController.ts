@@ -7,7 +7,7 @@ import Database from '@ioc:Adonis/Lucid/Database'
 export default class UsersController {
   public async getManagers(ctx: HttpContextContract) {
     try {
-      const managers = await ManagerModel.all()
+      const managers = await Database.query().select('*').from('manager_models')
       return ctx.response.status(200).json({
         success: true,
         data: managers,
@@ -22,7 +22,7 @@ export default class UsersController {
 
   public async getMembers(ctx: HttpContextContract) {
     try {
-      const members = await MemberModel.all()
+      const members = await Database.query().select('*').from('member_models')
       return ctx.response.status(200).json({
         success: true,
         data: members,

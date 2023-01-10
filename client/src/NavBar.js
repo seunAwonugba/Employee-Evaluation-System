@@ -10,11 +10,17 @@ export default function NavBar() {
             </Link>
 
             <ul>
-                <li>
+                <li className="hide">
                     <Link to="/managers-form">Managers</Link>
                 </li>
+                <li className="hide">
+                    <Link to="/members-form">Staffs</Link>
+                </li>
                 <li>
-                    <Link to="/staffForm">Staffs</Link>
+                    <Link to="/managers-score">Managers</Link>
+                </li>
+                <li>
+                    <Link to="/members-score">Members</Link>
                 </li>
             </ul>
         </nav>
