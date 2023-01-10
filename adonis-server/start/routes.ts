@@ -25,7 +25,8 @@ Route.get('/api/v1', async () => {
 })
 
 Route.group(() => {
-  Route.get('users', 'UsersController.getUsers')
+  Route.get('managers', 'UsersController.getManagers')
+  Route.get('members', 'UsersController.getMembers')
 
   Route.get('manager/:id', 'UsersController.getManager')
   Route.get('member/:id', 'UsersController.getMember')

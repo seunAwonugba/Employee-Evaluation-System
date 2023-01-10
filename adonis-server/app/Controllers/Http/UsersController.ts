@@ -5,17 +5,34 @@ import Logger from '@ioc:Adonis/Core/Logger'
 import Database from '@ioc:Adonis/Lucid/Database'
 
 export default class UsersController {
-  public async getUsers({ request, response }: HttpContextContract) {
-    return [
-      {
-        id: 1,
-        title: 'Hello world',
-      },
-      {
-        id: 2,
-        title: 'Hello universe',
-      },
-    ]
+  public async getManagers(ctx: HttpContextContract) {
+    try {
+      const managers = await ManagerModel.all()
+      return ctx.response.status(200).json({
+        success: true,
+        data: managers,
+      })
+    } catch (error) {
+      return ctx.response.status(404).json({
+        success: false,
+        data: error,
+      })
+    }
+  }
+
+  public async getMembers(ctx: HttpContextContract) {
+    try {
+      const members = await MemberModel.all()
+      return ctx.response.status(200).json({
+        success: true,
+        data: members,
+      })
+    } catch (error) {
+      return ctx.response.status(404).json({
+        success: false,
+        data: error,
+      })
+    }
   }
 
   public async getManager(ctx: HttpContextContract) {
