@@ -5,7 +5,7 @@ import Logger from '@ioc:Adonis/Core/Logger'
 import ManagerModel from 'App/Models/ManagerModel'
 import MemberModel from 'App/Models/MemberModel'
 
-const managersMonthlyEvaluation = () => {
+const monthlyEvaluation = () => {
   const currentMonth = new Date().toLocaleString('default', { month: 'long' })
   const sendEmails = async (
     to: string,
@@ -29,7 +29,6 @@ const managersMonthlyEvaluation = () => {
     })
   }
 
-  
   // "At 09:00, on day 1 of the month"
 
   const mail = cron.schedule('0 9 1 * *', async () => {
@@ -51,4 +50,4 @@ const managersMonthlyEvaluation = () => {
   mail.start()
 }
 
-module.exports = managersMonthlyEvaluation
+module.exports = monthlyEvaluation

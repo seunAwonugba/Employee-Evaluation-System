@@ -4,7 +4,7 @@ import Env from '@ioc:Adonis/Core/Env'
 import MemberModel from 'App/Models/MemberModel'
 import Logger from '@ioc:Adonis/Core/Logger'
 
-const membersMonthlyEvaluation = () => {
+const monthlyEvaluation = () => {
   const currentMonth = new Date().toLocaleString('default', { month: 'long' })
 
   const sendEmails = async (
@@ -49,4 +49,4 @@ const membersMonthlyEvaluation = () => {
   })
 }
 
-module.exports = membersMonthlyEvaluation
+module.exports = monthlyEvaluation
