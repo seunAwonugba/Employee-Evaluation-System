@@ -18,6 +18,7 @@ import ScoreboardIcon from "@mui/icons-material/Scoreboard";
 export default function Home() {
     const [managers, setManagers] = useState([{}]);
     const [members, setMembers] = useState([{}]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const getManagers = async () => {
         try {
@@ -37,14 +38,15 @@ export default function Home() {
             const response = await baseUrl.get(`/members`);
             console.log(response.data.data);
             setMembers(response.data.data);
-
-            // setIsLoading(false);
+            setIsLoading(false);
         } catch (error) {
-            // setIsLoading(false);
+            setIsLoading(false);
             console.log(error);
         }
     };
     useEffect(() => {
+        setIsLoading(true);
+
         getManagers();
         getMembers();
     }, []);
@@ -69,7 +71,13 @@ export default function Home() {
         },
     }));
 
-    return (
+    const currentMonth = new Date().toLocaleString("default", {
+        month: "long",
+    });
+
+    return isLoading ? (
+        <div className="loader">Loading...</div>
+    ) : (
         <body>
             <div className="home">
                 <p>Managers</p>
@@ -134,7 +142,9 @@ export default function Home() {
                                                 Scores
                                             </Button>
                                             <Button
-                                                href="/managers-form"
+                                                href={`/managers-form/?userId=${
+                                                    row.id
+                                                }&month=${currentMonth.toLowerCase()}`}
                                                 size="small"
                                                 variant="outlined"
                                                 endIcon={
@@ -217,7 +227,9 @@ export default function Home() {
                                                 Scores
                                             </Button>
                                             <Button
-                                                href="/members-form"
+                                                href={`/members-form/?userId=${
+                                                    row.id
+                                                }&month=${currentMonth.toLowerCase()}`}
                                                 size="small"
                                                 variant="outlined"
                                                 endIcon={

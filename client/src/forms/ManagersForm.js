@@ -12,6 +12,8 @@ const evaluationMonth = new URLSearchParams(params).get("month");
 // console.log(currentMonth);
 
 export default function ManagerForm() {
+    console.log(`id -> ${managerId}`);
+    console.log(`id -> ${evaluationMonth}`);
     const navigate = useNavigate();
 
     //api response state values
@@ -134,7 +136,7 @@ export default function ManagerForm() {
     };
 
     return isLoading ? (
-        <p>Loading...</p>
+        <div className="loader">Loading...</div>
     ) : (
         <body>
             <main>

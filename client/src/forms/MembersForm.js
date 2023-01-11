@@ -10,6 +10,8 @@ const memberId = new URLSearchParams(params).get("userId");
 const evaluationMonth = new URLSearchParams(params).get("month");
 
 export default function StaffForm() {
+    console.log(`id -> ${memberId}`);
+    console.log(`id -> ${evaluationMonth}`);
     const navigate = useNavigate();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -132,7 +134,7 @@ export default function StaffForm() {
     };
 
     return isLoading ? (
-        <p>Loading...</p>
+        <div className="loader">Loading...</div>
     ) : (
         <body>
             <main>
