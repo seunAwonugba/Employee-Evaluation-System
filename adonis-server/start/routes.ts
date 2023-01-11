@@ -19,6 +19,7 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import EvaluationsController from 'App/Controllers/Http/EvaluationsController'
 
 Route.get('/api/v1', async () => {
   return { success: 'true' }
@@ -36,4 +37,7 @@ Route.group(() => {
 
   Route.post('evaluation/manager/submit-form', 'FormsController.submitManagerForm')
   Route.post('evaluation/member/submit-form', 'FormsController.submitMemberForm')
+
+  Route.get('evaluation/manager/:id', 'EvaluationsController.getManagerEvaluations')
+  Route.get('evaluation/member/:id', 'EvaluationsController.getMemberEvaluations')
 }).prefix('api/v1/')
