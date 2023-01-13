@@ -1,0 +1,561 @@
+openapi: 3.0.0
+info:
+  version: '1'
+  title: Employee Evaluation System
+  description: 'Provides end points to interact with the employee management system service'
+  contact:
+    name: 'Awonugba seun'
+    url: 'https://github.com/seunAwonugba'
+    email: 'seunawonugba@gmail.com'
+
+servers:
+  - url: 'http://127.0.0.1:3333/api/v1'
+    description: 'Dev server'
+
+tags:
+  - name: 'Employee Evaluation System'
+    description: "Required api's needed to interact with the employee management system"
+paths:
+  /managers:
+    get:
+      description: 'Returns a list of all the managers'
+      tags:
+        - Manager
+      summary: 'Returns a list of all the managers'
+
+      responses:
+        200:
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: number
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    email:
+                      type: string
+                    gender:
+                      type: string
+                    phone_number:
+                      type: string
+                    address:
+                      type: string
+                    role:
+                      type: string
+                    branch:
+                      type: string
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+
+  /members:
+    get:
+      description: 'Returns a list of all the staff members'
+      tags:
+        - Member
+      summary: 'Returns a list of all the staff members'
+
+      responses:
+        200:
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: number
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    email:
+                      type: string
+                    gender:
+                      type: string
+                    phone_number:
+                      type: string
+                    address:
+                      type: string
+                    role:
+                      type: string
+                    branch:
+                      type: string
+                    manager_id:
+                      type: string
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+  /manager/{id}:
+    get:
+      description: 'Returns details about a single manager'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            description: 'Id of the manager'
+      tags:
+        - Manager
+      summary: 'Returns details about a single manager'
+
+      responses:
+        200:
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: number
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    email:
+                      type: string
+                    gender:
+                      type: string
+                    phone_number:
+                      type: string
+                    address:
+                      type: string
+                    role:
+                      type: string
+                    branch:
+                      type: string
+                    manager_id:
+                      type: string
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+  /member/{id}:
+    get:
+      description: 'Returns details about a single member'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            description: 'Id of the manager'
+      tags:
+        - Member
+      summary: 'Returns details about a single member'
+
+      responses:
+        200:
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: number
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    email:
+                      type: string
+                    gender:
+                      type: string
+                    phone_number:
+                      type: string
+                    address:
+                      type: string
+                    role:
+                      type: string
+                    branch:
+                      type: string
+                    manager_id:
+                      type: string
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+
+  /members/branch:
+    get:
+      description: 'Query list of members by their branch'
+      tags:
+        - Member
+      summary: 'Query list of members by their branch'
+      parameters:
+        - name: branch
+          in: query
+          description: 'Query list of members by their branch'
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: number
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    email:
+                      type: string
+                    gender:
+                      type: string
+                    phone_number:
+                      type: string
+                    address:
+                      type: string
+                    role:
+                      type: string
+                    branch:
+                      type: string
+                    manager_id:
+                      type: string
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+
+  /mangers/branch:
+    get:
+      description: 'Query list of managers by their branch'
+      tags:
+        - Manager
+      summary: 'Query list of managers by their branch'
+      parameters:
+        - name: branch
+          in: query
+          description: 'Query list of managers by their branch'
+          schema:
+            type: string
+      responses:
+        200:
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: number
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    email:
+                      type: string
+                    gender:
+                      type: string
+                    phone_number:
+                      type: string
+                    address:
+                      type: string
+                    role:
+                      type: string
+                    branch:
+                      type: string
+                    manager_id:
+                      type: string
+                    created_at:
+                      type: string
+                    updated_at:
+                      type: string
+
+  /evaluation/manager/submit-form:
+    post:
+      description: 'Create managers evaluation'
+      tags:
+        - Evaluation
+      summary: 'Create managers evaluation'
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - manager_name
+                - manager_id
+                - branch
+                - member_id
+                - work_quality
+                - work_quality_reason
+                - task_completion
+                - task_completion_reason
+                - over_and_abroad
+                - over_and_abroad_reason
+                - communication
+                - communication_reason
+                - evaluation_for_month
+              properties:
+                manager_name:
+                  type: string
+                manager_id:
+                  type: string
+                branch:
+                  type: string
+                member_id:
+                  type: string
+                work_quality:
+                  type: string
+                work_quality_reason:
+                  type: string
+                task_completion:
+                  type: string
+                task_completion_reason:
+                  type: string
+                over_and_abroad:
+                  type: string
+                over_and_abroad_reason:
+                  type: string
+                communication:
+                  type: string
+                communication_reason:
+                  type: string
+                evaluation_for_month:
+                  type: string
+
+      responses:
+        201:
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    manager_name:
+                      type: string
+                    manager_id:
+                      type: string
+                    branch:
+                      type: string
+                    member_id:
+                      type: string
+                    work_quality:
+                      type: string
+                    work_quality_reason:
+                      type: string
+                    task_completion:
+                      type: string
+                    task_completion_reason:
+                      type: string
+                    over_and_abroad:
+                      type: string
+                    over_and_abroad_reason:
+                      type: string
+                    communication:
+                      type: string
+                    communication_reason:
+                      type: string
+                    evaluation_for_month:
+                      type: string
+
+  /evaluation/member/submit-form:
+    post:
+      description: 'Create members evaluation'
+      tags:
+        - Evaluation
+      summary: 'Create members evaluation'
+
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - member_name
+                - member_id
+                - branch
+                - manager_id
+                - work_quality
+                - work_quality_reason
+                - task_completion
+                - task_completion_reason
+                - over_and_abroad
+                - over_and_abroad_reason
+                - communication
+                - communication_reason
+                - evaluation_for_month
+              properties:
+                member_name:
+                  type: string
+                member_id:
+                  type: string
+                branch:
+                  type: string
+                manager_id:
+                  type: string
+                work_quality:
+                  type: string
+                work_quality_reason:
+                  type: string
+                task_completion:
+                  type: string
+                task_completion_reason:
+                  type: string
+                over_and_abroad:
+                  type: string
+                over_and_abroad_reason:
+                  type: string
+                communication:
+                  type: string
+                communication_reason:
+                  type: string
+                evaluation_for_month:
+                  type: string
+
+      responses:
+        201:
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    manager_name:
+                      type: string
+                    manager_id:
+                      type: string
+                    branch:
+                      type: string
+                    member_id:
+                      type: string
+                    work_quality:
+                      type: string
+                    work_quality_reason:
+                      type: string
+                    task_completion:
+                      type: string
+                    task_completion_reason:
+                      type: string
+                    over_and_abroad:
+                      type: string
+                    over_and_abroad_reason:
+                      type: string
+                    communication:
+                      type: string
+                    communication_reason:
+                      type: string
+                    evaluation_for_month:
+                      type: string
+
+  /evaluation/manager/{id}:
+    get:
+      description: 'Returns all evaluations made for a manager'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            description: 'Id of the manager'
+      tags:
+        - Evaluation
+      summary: 'Returns all evaluations made for a manager'
+      responses:
+        200:
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    manager_name:
+                      type: string
+                    manager_id:
+                      type: string
+                    branch:
+                      type: string
+                    member_id:
+                      type: string
+                    work_quality:
+                      type: string
+                    work_quality_reason:
+                      type: string
+                    task_completion:
+                      type: string
+                    task_completion_reason:
+                      type: string
+                    over_and_abroad:
+                      type: string
+                    over_and_abroad_reason:
+                      type: string
+                    communication:
+                      type: string
+                    communication_reason:
+                      type: string
+                    evaluation_for_month:
+                      type: string
+
+  /evaluation/member/{id}:
+    get:
+      description: 'Returns all evaluations made for a member'
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+            description: 'Id of the manager'
+      tags:
+        - Evaluation
+      summary: 'Returns all evaluations made for a member'
+      responses:
+        200:
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    manager_name:
+                      type: string
+                    manager_id:
+                      type: string
+                    branch:
+                      type: string
+                    member_id:
+                      type: string
+                    work_quality:
+                      type: string
+                    work_quality_reason:
+                      type: string
+                    task_completion:
+                      type: string
+                    task_completion_reason:
+                      type: string
+                    over_and_abroad:
+                      type: string
+                    over_and_abroad_reason:
+                      type: string
+                    communication:
+                      type: string
+                    communication_reason:
+                      type: string
+                    evaluation_for_month:
+                      type: string
