@@ -8,7 +8,6 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { capitalize } from "@mui/material";
 
 const params = window.location.search;
 
@@ -16,6 +15,7 @@ const memberId = new URLSearchParams(params).get("memberId");
 
 export default function MemberScores() {
     const [evaluations, setEvaluations] = useState([{}]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const StyledTableCell = styled(TableCell)(({ theme }) => ({
         [`&.${tableCellClasses.head}`]: {
@@ -42,17 +42,21 @@ export default function MemberScores() {
             const response = await baseUrl.get(
                 `/evaluation/member/${memberId}`
             );
-            console.log(response.data.data);
             setEvaluations(response.data.data);
+            setIsLoading(false);
         } catch (error) {
+            setIsLoading(false);
             console.log(error);
         }
     };
 
     useEffect(() => {
+        setIsLoading(true);
         getEvaluations();
     }, []);
-    return (
+    return isLoading ? (
+        <div className="loader">Loading...</div>
+    ) : (
         <body>
             <div className="eval">
                 <p>Evaluation Score</p>
