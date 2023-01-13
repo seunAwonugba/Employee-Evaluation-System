@@ -49,26 +49,21 @@ const reminderEvaluation = async () => {
       (item) => !evaluatedMembersPerMonthId.includes(item)
     )
 
-    if (defaultMembersId.length != 0) {
-      // console.log(defaultMembers)
+    const defaultMembers = await Database.query()
+      .select('*')
+      .from('member_models')
+      .whereIn('id', defaultMembersId)
 
-      const defaultMembers = await Database.query()
-        .select('*')
-        .from('member_models')
-        .whereIn('id', defaultMembersId)
-
-      defaultMembers.map((member) => {
-        console.log(member)
-        sendMails(
-          member.email,
-          `${member.first_name}, Evaluation Reminder`,
-          member.first_name,
-          member.id,
-          currentMonth
-        )
-      })
-    } else {
-    }
+    defaultMembers.map((member) => {
+      console.log(member)
+      sendMails(
+        member.email,
+        `${member.first_name}, Evaluation Reminder`,
+        member.first_name,
+        member.id,
+        currentMonth
+      )
+    })
 
     mail.start()
   })

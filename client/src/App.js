@@ -6,6 +6,8 @@ import Home from "./Home";
 import StaffForm from "./forms/MembersForm";
 import NavBar from "./NavBar";
 import { ToastContainer, toast } from "react-toastify";
+import ManagerScores from "./scores/Manager";
+import MemberScores from "./scores/Member";
 
 function App() {
     return (
@@ -15,6 +17,8 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/managers-form" element={<ManagerForm />} />
                 <Route path="/members-form" element={<StaffForm />} />
+                <Route path="/manager-scores" element={<ManagerScores />} />
+                <Route path="/member-scores" element={<MemberScores />} />
             </Routes>
             <ToastContainer />
         </>

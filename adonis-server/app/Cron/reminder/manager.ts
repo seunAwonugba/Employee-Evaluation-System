@@ -50,25 +50,22 @@ const reminderEvaluation = async () => {
       (item) => !evaluatedManagersPerMonthId.includes(item)
     )
 
-    if (defaultManagersId.length != 0) {
-      const defaultManagers = await Database.query()
-        .select('*')
-        .from('manager_models')
-        .whereIn('id', defaultManagersId)
+    const defaultManagers = await Database.query()
+      .select('*')
+      .from('manager_models')
+      .whereIn('id', defaultManagersId)
 
-      defaultManagers.map((manager) => {
-        console.log(manager)
+    defaultManagers.map((manager) => {
+      console.log(manager)
 
-        sendEmails(
-          manager.email,
-          `${manager.first_name}, Evaluation Reminder`,
-          manager.first_name,
-          manager.id,
-          currentMonth
-        )
-      })
-    } else {
-    }
+      sendEmails(
+        manager.email,
+        `${manager.first_name}, Evaluation Reminder`,
+        manager.first_name,
+        manager.id,
+        currentMonth
+      )
+    })
 
     mail.start()
   })

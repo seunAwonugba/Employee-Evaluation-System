@@ -16,12 +16,6 @@ export default function NavBar() {
                 <li className="hide">
                     <Link to="/members-form">Staffs</Link>
                 </li>
-                <li>
-                    <Link to="/managers-score">Managers</Link>
-                </li>
-                <li>
-                    <Link to="/members-score">Members</Link>
-                </li>
             </ul>
         </nav>
     );

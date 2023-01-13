@@ -1,4 +1,3 @@
-// import "./App.css";
 import { useState, useEffect } from "react";
 import baseUrl from "../base-url/base-url";
 import "../css/forms.css";
@@ -12,8 +11,6 @@ const evaluationMonth = new URLSearchParams(params).get("month");
 // console.log(currentMonth);
 
 export default function ManagerForm() {
-    console.log(`id -> ${managerId}`);
-    console.log(`id -> ${evaluationMonth}`);
     const navigate = useNavigate();
 
     //api response state values

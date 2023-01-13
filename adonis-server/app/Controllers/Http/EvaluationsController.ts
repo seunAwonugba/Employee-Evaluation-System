@@ -9,6 +9,7 @@ export default class EvaluationsController {
         .select('*')
         .from('member_answer_models')
         .where('manager_id', id)
+        .orderBy('updated_at', 'desc')
 
       if (getEvaluation) {
         return ctx.response.status(200).json({
@@ -36,6 +37,7 @@ export default class EvaluationsController {
         .select('*')
         .from('manager_answer_models')
         .where('member_id', id)
+        .orderBy('updated_at', 'desc')
 
       if (getEvaluation) {
         return ctx.response.status(200).json({

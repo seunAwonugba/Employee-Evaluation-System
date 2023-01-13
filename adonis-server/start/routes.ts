@@ -19,7 +19,6 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import EvaluationsController from 'App/Controllers/Http/EvaluationsController'
 
 Route.get('/api/v1', async () => {
   return { success: 'true' }

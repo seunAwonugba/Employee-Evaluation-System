@@ -26,9 +26,9 @@ export default function Home() {
             console.log(response.data.data);
             setManagers(response.data.data);
 
-            // setIsLoading(false);
+            setIsLoading(false);
         } catch (error) {
-            // setIsLoading(false);
+            setIsLoading(false);
             console.log(error);
         }
     };
@@ -133,6 +133,7 @@ export default function Home() {
                                     <StyledTableCell align="right">
                                         <Stack direction="row" spacing={2}>
                                             <Button
+                                                href={`/manager-scores/?managerId=${row.id}`}
                                                 size="small"
                                                 variant="contained"
                                                 startIcon={
@@ -218,6 +219,7 @@ export default function Home() {
                                     <StyledTableCell align="right">
                                         <Stack direction="row" spacing={2}>
                                             <Button
+                                                href={`/member-scores/?memberId=${row.id}`}
                                                 size="small"
                                                 variant="contained"
                                                 startIcon={

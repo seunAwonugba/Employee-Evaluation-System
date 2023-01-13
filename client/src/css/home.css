@@ -14,8 +14,15 @@ body {
     padding: 2rem 2.5rem;
 }
 
+.eval {
+    width: 100%;
+    background: var(--white);
+    border-radius: var(--borderRadius);
+    box-shadow: var(--shadow-2);
+    padding: 2rem 2.5rem;
+    height: 100vh;
+}
+
 .branch {
     text-transform: capitalize;
 }
-
-
