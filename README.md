@@ -1,6 +1,6 @@
 # Employee-Evaluation-System
 
-A full stack application, that provides evaluation solutions within an organisation, by tracking and determining what and who works well and what needs to be improved in the organisation
+A full stack application, that provides evaluation solutions within an organization, by tracking and determining what and who works well and what needs to be improved in the organization
 
 # Installation
 
@@ -42,6 +42,9 @@ You can now view employee-evaluation-system-front-end in the browser.
 Local: http://localhost:3000
 On Your Network: http://192.168.0.105:3000
 
+Open Api Link
+https://app.swaggerhub.com/apis/seunAwonugba/EmployeeEvaluationSystemApi/1 
+
 #Technologies used
 Adonis JS
 Typescript
@@ -50,3 +53,4 @@ Adonis Mailer
 Cron Jobs
 Material UI Table
 Postgresql
+Open Api
