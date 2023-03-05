@@ -61,6 +61,7 @@
     "@adonisjs/repl": "^3.1.11",
     "@adonisjs/view": "^6.2.0",
     "adonis5-scheduler": "^2.0.2",
+    "http-status-codes": "^2.2.0",
     "luxon": "^3.2.0",
     "moment": "^2.29.4",
     "node-cron": "^3.0.2",
