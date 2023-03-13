@@ -16,6 +16,9 @@ export default function NavBar() {
                 <li className="hide">
                     <Link to="/members-form">Staffs</Link>
                 </li>
+                <li>
+                    <Link to="/sign-up">Sign Up</Link>
+                </li>
             </ul>
         </nav>
     );

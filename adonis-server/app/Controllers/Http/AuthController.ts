@@ -6,6 +6,8 @@ import Logger from '@ioc:Adonis/Core/Logger'
 
 export default class AuthController {
   public async signUp(ctx: HttpContextContract) {
+    // console.log(ctx)
+
     const createCompanySchema = schema.create({
       companyName: schema.string({ trim: true }, [
         rules.unique({ table: 'company_models', column: 'company_name', caseInsensitive: true }),
@@ -18,9 +20,11 @@ export default class AuthController {
       ]),
       password: schema.string([
         rules.regex(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/),
+        rules.confirmed(),
       ]),
-      // ^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\]).{8,32}$
     })
+
+    // console.log(createCompanySchema)
 
     try {
       // Logger.error(ctx.request)
@@ -29,25 +33,26 @@ export default class AuthController {
       const payload = await ctx.request.validate({
         schema: createCompanySchema,
         messages: {
-          // 'required': 'The {{ field }} is required to create a new account',
-          // 'companyName.unique': 'Company name already exist',
           '*': (field, rule, arrayExpressionPointer, options) => {
             return `${rule} validation error on ${field}`
           },
           'companyName.required': 'Company name is required',
           'companyName.unique': 'Company name already exist',
           'companyWebpage.url': 'Company webpage must be a valid url',
+          'companyWebpage.required': 'Company webpage is required',
           'ceoName.required': 'CEO name is required',
           'companyEmail.required': 'Company email is required',
           'companyEmail.email': 'Please provide a valid company email address',
           'companyEmail.unique': 'Company email already exist',
           'password.required': 'Password is required',
+          'password_confirmation.confirmed': 'Password and confirm password does not match',
           'password.regex':
             'Passwords must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
         },
       })
 
       const registerCompany = await CompanyModel.create(payload)
+      // console.log(registerCompany)
 
       return ctx.response.status(StatusCodes.CREATED).json({
         success: true,
