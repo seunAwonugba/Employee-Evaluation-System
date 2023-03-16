@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import baseUrl from "../base_url/baseUrl";
-import TextField from "@mui/material/TextField";
 
 export default function SignUp() {
     const [companyName, setCompanyName] = useState("");

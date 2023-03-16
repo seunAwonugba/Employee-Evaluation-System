@@ -1,4 +1,5 @@
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
+import Role from 'Contracts/enums/Role'
 
 export default class extends BaseSchema {
   protected tableName = 'company_models'
@@ -12,6 +13,10 @@ export default class extends BaseSchema {
       table.string('company_email', 255).notNullable().unique()
       table.string('password', 180).notNullable()
       table.string('remember_me_token').nullable()
+      table.string('role').notNullable().defaultTo(Role.COMPANY_USER)
+
+      table.string('confirm_token')
+      table.boolean('is_active').defaultTo(false)
 
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL

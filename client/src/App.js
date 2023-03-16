@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import ManagerScores from "./page/scores/Manager";
 import MemberScores from "./page/scores/Member";
 import SignUp from "./page/SignUp";
+import EmailConfirmation from "./page/EmailConfirmation";
 
 function App() {
     return (
@@ -22,6 +23,11 @@ function App() {
                 <Route path="/member-scores" element={<MemberScores />} />
 
                 <Route path="/sign-up" element={<SignUp />} />
+
+                <Route
+                    path="/email-confirmation"
+                    element={<EmailConfirmation />}
+                />
             </Routes>
             <ToastContainer />
         </>

@@ -34,4 +34,7 @@ export default Env.rules({
   SMTP_PORT: Env.schema.number(),
   SMTP_USERNAME: Env.schema.string(),
   SMTP_PASSWORD: Env.schema.string(),
+  CLIENT_URL: Env.schema.string(),
+  JWT_SECRET_KEY: Env.schema.string(),
+  VERIFICATION_EMAIL_LIFETIME: Env.schema.string(),
 })

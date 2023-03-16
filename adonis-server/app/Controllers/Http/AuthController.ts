@@ -2,7 +2,10 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import CompanyModel from 'App/Models/CompanyModel'
 import { StatusCodes, ReasonPhrases } from 'http-status-codes'
-import Logger from '@ioc:Adonis/Core/Logger'
+import randomString from 'randomstring'
+import Mail from '@ioc:Adonis/Addons/Mail'
+import Env from '@ioc:Adonis/Core/Env'
+import jwt from 'jsonwebtoken'
 
 export default class AuthController {
   public async signUp(ctx: HttpContextContract) {
@@ -24,12 +27,7 @@ export default class AuthController {
       ]),
     })
 
-    // console.log(createCompanySchema)
-
     try {
-      // Logger.error(ctx.request)
-      // console.log(ctx.request)
-
       const payload = await ctx.request.validate({
         schema: createCompanySchema,
         messages: {
@@ -51,12 +49,48 @@ export default class AuthController {
         },
       })
 
-      const registerCompany = await CompanyModel.create(payload)
-      // console.log(registerCompany)
+      const token = jwt.sign(
+        {
+          companyName: payload.companyName,
+          companyEmail: payload.companyEmail,
+        },
+        Env.get('JWT_SECRET_KEY'),
+        { expiresIn: Env.get('VERIFICATION_EMAIL_LIFETIME') }
+      )
+
+      const registerCompany = await CompanyModel.create({
+        ...payload,
+        confirmToken: token,
+      })
+
+      const sendConfirmationMail = async (
+        to: string,
+        subject: string,
+        companyName: string,
+        token: string
+      ) => {
+        await Mail.send((message) => {
+          message
+            .from('darian93@ethereal.email')
+            .to(to)
+            .subject(subject)
+            .htmlView('emails/confirmation_email', {
+              user: { companyName },
+              url: `${Env.get('CLIENT_URL')}/email-confirmation/?${token}`,
+            })
+        })
+      }
+
+      sendConfirmationMail(
+        registerCompany.companyEmail,
+        'Confirm Email!!!',
+        registerCompany.companyName,
+        token
+      )
 
       return ctx.response.status(StatusCodes.CREATED).json({
         success: true,
-        data: registerCompany,
+        data: `Registration email address sent to ${registerCompany.companyEmail}`,
       })
     } catch (error) {
       return ctx.response.status(StatusCodes.BAD_REQUEST).json({

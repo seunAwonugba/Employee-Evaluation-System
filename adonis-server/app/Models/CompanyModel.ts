@@ -18,6 +18,15 @@ export default class CompanyModel extends BaseModel {
   @column()
   public companyEmail: string
 
+  @column()
+  public role: string
+
+  @column()
+  public confirmToken: string
+
+  @column()
+  public isActive: boolean
+
   @column({ serializeAs: null })
   public password: string
 
