@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import baseUrl from "../base_url/baseUrl";
+import baseUrl from "../../base_url/baseUrl";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
+    const navigate = useNavigate();
+
     const [companyName, setCompanyName] = useState("");
     const [companyWebpage, setCompanyWebpage] = useState("");
     const [ceoName, setCeoName] = useState("");
@@ -29,9 +32,12 @@ export default function SignUp() {
 
         try {
             const response = await baseUrl.post("auth/sign-up", userResponse);
-            // setIsLoading(false);
 
-            console.log(response);
+            if (response.data.success === true) {
+                navigate("/email-confirmation-sent");
+            } else {
+                toast.error(response.data.data);
+            }
         } catch (error) {
             setIsLoading(false);
             console.log(error);

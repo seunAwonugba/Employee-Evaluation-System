@@ -8,8 +8,10 @@ import NavBar from "./NavBar";
 import { ToastContainer, toast } from "react-toastify";
 import ManagerScores from "./page/scores/Manager";
 import MemberScores from "./page/scores/Member";
-import SignUp from "./page/SignUp";
+import SignUp from "./page/auth/SignUp";
 import EmailConfirmation from "./page/EmailConfirmation";
+import Login from "./page/auth/Login";
+import EmailConfirmationSent from "./page/EmailConfirmationSent";
 
 function App() {
     return (
@@ -23,10 +25,16 @@ function App() {
                 <Route path="/member-scores" element={<MemberScores />} />
 
                 <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/login" element={<Login />} />
 
                 <Route
                     path="/email-confirmation"
                     element={<EmailConfirmation />}
+                />
+
+                <Route
+                    path="/email-confirmation-sent"
+                    element={<EmailConfirmationSent />}
                 />
             </Routes>
             <ToastContainer />
