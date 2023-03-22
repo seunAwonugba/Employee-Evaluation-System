@@ -11,8 +11,6 @@ import Hash from '@ioc:Adonis/Core/Hash'
 
 export default class AuthController {
   public async signUp(ctx: HttpContextContract) {
-    // console.log(ctx)
-
     const createCompanySchema = schema.create({
       companyName: schema.string({ trim: true }, [
         rules.unique({ table: 'company_models', column: 'company_name', caseInsensitive: true }),
@@ -109,7 +107,6 @@ export default class AuthController {
     try {
       // const company = await Database.query().from('company_models').where('confirm_token', token)
       const company = await CompanyModel.findBy('confirm_token', token)
-      // console.log(company)
 
       if (!company) {
         return ctx.response.status(StatusCodes.NOT_FOUND).json({
@@ -127,8 +124,6 @@ export default class AuthController {
         data: 'Email confirmation is successful, kindly proceed to login if you are not redirected',
       })
     } catch (error) {
-      console.log(error)
-
       return ctx.response.status(StatusCodes.BAD_REQUEST).json({
         success: false,
         data: error.messages.errors[0].message,
@@ -174,7 +169,7 @@ export default class AuthController {
         Env.get('JWT_SECRET_KEY')
       )
 
-      await PasswordResetModel.create({
+      const addUserForPasswordReset = await PasswordResetModel.create({
         ...payload,
         token,
       })
@@ -186,7 +181,9 @@ export default class AuthController {
             .to(to)
             .subject(subject)
             .htmlView('emails/change_reset_password', {
-              url: `${Env.get('CLIENT_URL')}/change-reset-password/?token=${token}`,
+              url: `${Env.get('CLIENT_URL')}/change-reset-password/?token=${
+                addUserForPasswordReset.token
+              }`,
             })
         })
       }
@@ -207,8 +204,6 @@ export default class AuthController {
   }
 
   public async changeResetPassword(ctx: HttpContextContract) {
-    // console.log(ctx.request.body())
-
     const changeResetPasswordSchema = schema.create({
       email: schema.string({ trim: true }, [rules.email(), rules.required()]),
       password: schema.string([
@@ -267,21 +262,19 @@ export default class AuthController {
 
       return ctx.response.status(StatusCodes.OK).json({
         success: true,
-        data: 'Password reset successful',
+        data: 'Password reset successful, kindly proceed to login if you are not redirected',
       })
     } catch (error) {
-      console.log(error)
-
       return ctx.response.status(StatusCodes.BAD_REQUEST).json({
         success: false,
-        data: error,
+        data: error.messages.errors[0].message,
       })
     }
   }
 
   public async login(ctx: HttpContextContract) {
     const loginSchema = schema.create({
-      email: schema.string({ trim: true }, [rules.required(), rules.email()]),
+      companyEmail: schema.string({ trim: true }, [rules.required(), rules.email()]),
       password: schema.string([
         rules.regex(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/),
       ]),
@@ -302,7 +295,47 @@ export default class AuthController {
         },
       })
 
-      // const login = await ctx.auth.use("api").attempt()
+      const company = await CompanyModel.findBy('companyEmail', payload.companyEmail)
+      // console.log(company)
+
+      if (!company) {
+        return ctx.response.status(StatusCodes.NOT_FOUND).json({
+          success: false,
+          data: 'Company with this email address does not exist',
+        })
+      }
+
+      if (company.isActive != true) {
+        return ctx.response.status(StatusCodes.NOT_FOUND).json({
+          success: false,
+          data: 'Confirm email verification to proceed',
+        })
+      }
+
+      const verifyPassword = await Hash.verify(company.password, payload.password)
+
+
+      if (!verifyPassword) {
+        return ctx.response.status(StatusCodes.NOT_FOUND).json({
+          success: false,
+          data: 'Wrong email address or password',
+        })
+      }
+
+      const token = jwt.sign(
+        {
+          companyName: company.companyName,
+          companyEmail: payload.companyEmail,
+        },
+        Env.get('JWT_SECRET_KEY'),
+        {}
+      )
+
+      return ctx.response.status(StatusCodes.CREATED).json({
+        success: true,
+        data: company,
+        token,
+      })
     } catch (error) {
       return ctx.response.status(StatusCodes.BAD_REQUEST).json({
         success: false,

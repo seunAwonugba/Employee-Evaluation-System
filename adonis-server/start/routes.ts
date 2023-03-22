@@ -26,6 +26,7 @@ Route.get('/api/v1', async () => {
 
 Route.group(() => {
   Route.post('sign-up', 'AuthController.signUp')
+  Route.post('login', 'AuthController.login')
 
   Route.get('confirm-email', 'AuthController.confirmEmail')
   Route.post('reset-password-link', 'AuthController.sendPasswordResetLink')
