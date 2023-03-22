@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import baseUrl from "../../base_url/baseUrl";
 import "../../css/forms.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 const params = window.location.search;

@@ -5,7 +5,11 @@ export default class PasswordResetModel extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
-  
+  @column()
+  public companyEmail: string
+
+  @column()
+  public token: string
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

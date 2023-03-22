@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 
 const params = window.location.search;
 const token = new URLSearchParams(params).get("token");
-// console.log(token);
 
 export default function EmailConfirmation() {
     const navigate = useNavigate();
@@ -16,15 +15,17 @@ export default function EmailConfirmation() {
                 const response = await baseUrl.get(
                     `/auth/confirm-email/?token=${token}`
                 );
-                console.log(response);
-                // if (response.data.data.success === true) {
-                //     toast.success(response.data.data);
-                //     navigate("/login");
-                // } else {
-                //     toast.error(response.data.data);
-                //     // navigate("/");
-                // } // toast.success()
-            } catch (error) {}
+                // console.log(response);
+                if (response.data.success === true) {
+                    toast.success(response.data.data);
+                    navigate("/login");
+                } else {
+                    toast.error(response.data.data);
+                }
+            } catch (error) {
+                console.log(error);
+                toast.error(error.data.data);
+            }
         };
         validateToken();
     }, []);

@@ -26,3 +26,15 @@ body {
 .branch {
     text-transform: capitalize;
 }
+
+.email-sent-screen {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-text {
+    text-align: center;
+}

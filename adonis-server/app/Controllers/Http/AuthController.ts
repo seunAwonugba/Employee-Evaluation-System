@@ -6,6 +6,7 @@ import Mail from '@ioc:Adonis/Addons/Mail'
 import Env from '@ioc:Adonis/Core/Env'
 import jwt from 'jsonwebtoken'
 import Database from '@ioc:Adonis/Lucid/Database'
+import PasswordResetModel from 'App/Models/PasswordResetModel'
 
 export default class AuthController {
   public async signUp(ctx: HttpContextContract) {
@@ -31,7 +32,7 @@ export default class AuthController {
       const payload = await ctx.request.validate({
         schema: createCompanySchema,
         messages: {
-          '*': (field, rule, arrayExpressionPointer, options) => {
+          '*': (field, rule, _arrayExpressionPointer, _options) => {
             return `${rule} validation error on ${field}`
           },
           'companyName.required': 'Company name is required',
@@ -90,7 +91,7 @@ export default class AuthController {
 
       return ctx.response.status(StatusCodes.CREATED).json({
         success: true,
-        data: `Registration email address sent to ${registerCompany.companyEmail}`,
+        data: `Confirmation email sent to ${registerCompany.companyEmail}, proceed to your mail box to confirm your email address`,
         token,
       })
     } catch (error) {
@@ -117,13 +118,12 @@ export default class AuthController {
       }
 
       company.isActive = true
-      company.confirmToken = ''
 
       await company.save()
 
       return ctx.response.status(StatusCodes.OK).json({
         success: true,
-        data: 'Email confirmation is successful, kindly proceed to login',
+        data: 'Email confirmation is successful, kindly proceed to login if you are not redirected',
       })
     } catch (error) {
       console.log(error)
@@ -131,6 +131,94 @@ export default class AuthController {
       return ctx.response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         success: false,
         data: 'Invalid token',
+      })
+    }
+  }
+
+  public async sendPasswordResetLink(ctx: HttpContextContract) {
+    const passwordResetSchema = schema.create({
+      companyEmail: schema.string({ trim: true }, [rules.email(), rules.required()]),
+    })
+
+    try {
+      const payload = await ctx.request.validate({
+        schema: passwordResetSchema,
+        messages: {
+          '*': (field, rule, _arrayExpressionPointer, _options) => {
+            return `${rule} validation error on ${field}`
+          },
+          'required': 'Email address is required',
+          'email': 'Please provide a valid email address',
+        },
+      })
+
+      const company = await CompanyModel.findBy('companyEmail', payload.companyEmail)
+
+      if (!company) {
+        return ctx.response.status(StatusCodes.NOT_FOUND).json({
+          success: false,
+          data: 'Company does not exist',
+        })
+      }
+
+      await Database.query()
+        .from('password_reset_models')
+        .where('company_email', payload.companyEmail)
+        .delete()
+
+      const token = jwt.sign(
+        {
+          email: payload.companyEmail,
+        },
+        Env.get('JWT_SECRET_KEY')
+      )
+
+      await PasswordResetModel.create({
+        ...payload,
+        token,
+      })
+
+      const sendResetPasswordLinkMail = async (to: string, subject: string, token: string) => {
+        await Mail.send((message) => {
+          message
+            .from('jessica.grady91@ethereal.email')
+            .to(to)
+            .subject(subject)
+            .htmlView('emails/change_reset_password', {
+              url: `${Env.get('CLIENT_URL')}/change-reset-password/?token=${token}`,
+            })
+        })
+      }
+
+      sendResetPasswordLinkMail(company.companyEmail, 'Reset password Link', token)
+
+      return ctx.response.status(StatusCodes.CREATED).json({
+        success: true,
+        data: `Reset password link sent to ${payload.companyEmail}, proceed to your mail box to reset your password`,
+        // token,
+      })
+    } catch (error) {
+      return ctx.response.status(StatusCodes.BAD_REQUEST).json({
+        success: false,
+        data: error.messages.errors[0].message,
+      })
+    }
+  }
+
+  public async changeResetPassword(ctx: HttpContextContract) {
+    const changeResetPassword = schema.create({
+      password: schema.string([
+        rules.regex(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/),
+        rules.confirmed(),
+      ]),
+    })
+
+    try {
+      
+    } catch (error) {
+      return ctx.response.status(StatusCodes.BAD_REQUEST).json({
+        success: false,
+        data: error.messages.errors[0].message,
       })
     }
   }
@@ -147,7 +235,7 @@ export default class AuthController {
       const payload = await ctx.request.validate({
         schema: loginSchema,
         messages: {
-          '*': (field, rule, arrayExpressionPointer, options) => {
+          '*': (field, rule, _arrayExpressionPointer, _options) => {
             return `${rule} validation error on ${field}`
           },
           'companyEmail.required': 'Company email is required',

@@ -1,25 +1,28 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import baseUrl from "../../base_url/baseUrl";
+import baseUrl from "../base_url/baseUrl";
 
-export default function Login() {
-    const [companyEmail, setCompanyEmail] = useState("");
+export default function ChangeResetPassword() {
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
     const inputChangeHandler = (setFunction, event) => {
         setFunction(event.target.value);
     };
 
-    const login = async (e) => {
+    const changeResetPassword = async (e) => {
         e.preventDefault();
         const userResponse = {
-            companyEmail,
             password,
+            confirmPassword,
         };
 
         try {
-            const response = await baseUrl.post("auth/sign-up", userResponse);
+            const response = await baseUrl.post(
+                "auth/change-reset-password",
+                userResponse
+            );
             // setIsLoading(false);
 
             console.log(response);
@@ -36,23 +39,26 @@ export default function Login() {
         <body>
             <main>
                 <div className="container">
-                    <form onSubmit={login} className="single-task-form">
-                        <h4>Login</h4>
+                    <form
+                        onSubmit={changeResetPassword}
+                        className="single-task-form"
+                    >
+                        <h4>Reset Password</h4>
                         <div className="form-control">
-                            <label for="companyEmail">Email</label>
-                            <input
-                                type="email"
-                                onChange={(e) =>
-                                    inputChangeHandler(setCompanyEmail, e)
-                                }
-                            />
-                        </div>
-                        <div className="form-control">
-                            <label for="password">Password</label>
+                            <label for="companyEmail">Password</label>
                             <input
                                 type="password"
                                 onChange={(e) =>
                                     inputChangeHandler(setPassword, e)
+                                }
+                            />
+                        </div>
+                        <div className="form-control">
+                            <label for="password">Confirm password</label>
+                            <input
+                                type="password"
+                                onChange={(e) =>
+                                    inputChangeHandler(setConfirmPassword, e)
                                 }
                             />
                         </div>
@@ -61,17 +67,8 @@ export default function Login() {
                             type="submit"
                             className="block btn task-edit-btn"
                         >
-                            Login
+                            Change password
                         </button>
-
-                        <p>
-                            Forgot password?{" "}
-                            <a href="http://localhost:3000/forgot-password-email">
-                                Click here
-                            </a>{" "}
-                            to reset
-                        </p>
-                        {/* <div className="form-alert"></div> */}
                     </form>
                 </div>
             </main>
