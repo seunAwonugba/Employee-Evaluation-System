@@ -7,6 +7,7 @@ import Env from '@ioc:Adonis/Core/Env'
 import jwt from 'jsonwebtoken'
 import Database from '@ioc:Adonis/Lucid/Database'
 import PasswordResetModel from 'App/Models/PasswordResetModel'
+import Hash from '@ioc:Adonis/Core/Hash'
 
 export default class AuthController {
   public async signUp(ctx: HttpContextContract) {
@@ -108,12 +109,12 @@ export default class AuthController {
     try {
       // const company = await Database.query().from('company_models').where('confirm_token', token)
       const company = await CompanyModel.findBy('confirm_token', token)
-      console.log(company)
+      // console.log(company)
 
       if (!company) {
         return ctx.response.status(StatusCodes.NOT_FOUND).json({
           success: false,
-          data: 'Company does not exist',
+          data: 'Invalid or expired token',
         })
       }
 
@@ -128,9 +129,9 @@ export default class AuthController {
     } catch (error) {
       console.log(error)
 
-      return ctx.response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      return ctx.response.status(StatusCodes.BAD_REQUEST).json({
         success: false,
-        data: 'Invalid token',
+        data: error.messages.errors[0].message,
       })
     }
   }
@@ -157,7 +158,7 @@ export default class AuthController {
       if (!company) {
         return ctx.response.status(StatusCodes.NOT_FOUND).json({
           success: false,
-          data: 'Company does not exist',
+          data: 'Company with this email address does not exist',
         })
       }
 
@@ -206,19 +207,74 @@ export default class AuthController {
   }
 
   public async changeResetPassword(ctx: HttpContextContract) {
-    const changeResetPassword = schema.create({
+    // console.log(ctx.request.body())
+
+    const changeResetPasswordSchema = schema.create({
+      email: schema.string({ trim: true }, [rules.email(), rules.required()]),
       password: schema.string([
         rules.regex(/^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,}$/),
         rules.confirmed(),
       ]),
     })
+    const token = ctx.request.body().token
 
     try {
-      
+      const payload = await ctx.request.validate({
+        schema: changeResetPasswordSchema,
+        messages: {
+          '*': (field, rule, _arrayExpressionPointer, _options) => {
+            return `${rule} validation error on ${field}`
+          },
+          'email.required': 'Company email is required',
+          'email.email': 'Please provide a valid company email address',
+          'password.required': 'Password is required',
+          'password_confirmation.confirmed': 'Password and confirm password does not match',
+          'password.regex':
+            'Passwords must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+        },
+      })
+
+      const company = await CompanyModel.findBy('companyEmail', payload.email)
+
+      if (!company) {
+        return ctx.response.status(StatusCodes.NOT_FOUND).json({
+          success: false,
+          data: 'Company with this email address does not exist',
+        })
+      }
+
+      const checkToken = await Database.query()
+        .from('password_reset_models')
+        .where('company_email', payload.email)
+        .where('token', token)
+        .first()
+
+      if (!checkToken) {
+        return ctx.response.status(StatusCodes.NOT_FOUND).json({
+          success: false,
+          data: 'Invalid or expired token',
+        })
+      }
+
+      company.password = await Hash.make(payload.password)
+
+      await company.save()
+
+      await Database.query()
+        .from('password_reset_models')
+        .where('company_email', payload.email)
+        .delete()
+
+      return ctx.response.status(StatusCodes.OK).json({
+        success: true,
+        data: 'Password reset successful',
+      })
     } catch (error) {
+      console.log(error)
+
       return ctx.response.status(StatusCodes.BAD_REQUEST).json({
         success: false,
-        data: error.messages.errors[0].message,
+        data: error,
       })
     }
   }
