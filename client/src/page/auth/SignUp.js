@@ -21,6 +21,8 @@ export default function SignUp() {
 
     const signUp = async (e) => {
         e.preventDefault();
+
+        setIsLoading(true);
         const userResponse = {
             companyName,
             companyWebpage,
@@ -32,6 +34,7 @@ export default function SignUp() {
 
         try {
             const response = await baseUrl.post("auth/sign-up", userResponse);
+            setIsLoading(false);
 
             if (response.data.success === true) {
                 navigate("/email-confirmation-sent");
@@ -40,86 +43,77 @@ export default function SignUp() {
             }
         } catch (error) {
             setIsLoading(false);
-            console.log(error);
+            // console.log(error);
             toast.error(error.response.data.data);
         }
     };
 
     return isLoading ? (
-        <div className="loader">Loading...</div>
-    ) : (
         <body>
-            <main>
-                <div className="container">
-                    <form onSubmit={signUp} className="single-task-form">
-                        <h4>Company Sign Up</h4>
-                        <div className="form-control">
-                            <label for="companyName">Company Name</label>
-                            <input
-                                type="text"
-                                onChange={(e) =>
-                                    inputChangeHandler(setCompanyName, e)
-                                }
-                            />
-                        </div>
-                        <div className="form-control">
-                            <label for="companyWebpage">Company Webpage</label>
-                            <input
-                                type="text"
-                                onChange={(e) =>
-                                    inputChangeHandler(setCompanyWebpage, e)
-                                }
-                            />
-                        </div>
-                        <div className="form-control">
-                            <label for="ceoName">CEO's Name</label>
-                            <input
-                                type="text"
-                                onChange={(e) =>
-                                    inputChangeHandler(setCeoName, e)
-                                }
-                            />
-                        </div>
-                        <div className="form-control">
-                            <label for="companyEmail">Company Email</label>
-                            <input
-                                type="email"
-                                onChange={(e) =>
-                                    inputChangeHandler(setCompanyEmail, e)
-                                }
-                            />
-                        </div>
-                        <div className="form-control">
-                            <label for="password">Password</label>
-                            <input
-                                type="password"
-                                onChange={(e) =>
-                                    inputChangeHandler(setPassword, e)
-                                }
-                            />
-                        </div>
-                        <div className="form-control">
-                            <label for="confirm_password">
-                                Confirm Password
-                            </label>
-                            <input
-                                type="password"
-                                onChange={(e) =>
-                                    inputChangeHandler(setConfirmPassword, e)
-                                }
-                            />
-                        </div>
-
-                        <button
-                            type="submit"
-                            className="block btn task-edit-btn"
-                        >
-                            Sign Up
-                        </button>
-                        <div className="form-alert"></div>
-                    </form>
+            <h4>Loading...</h4>
+        </body>
+    ) : (
+        <body className="container">
+            <form onSubmit={signUp} className="single-task-form">
+                <h4>Company Sign Up</h4>
+                <div className="form-control">
+                    <label for="companyName">Company Name</label>
+                    <input
+                        type="text"
+                        onChange={(e) => inputChangeHandler(setCompanyName, e)}
+                        value={companyName}
+                    />
                 </div>
-            </main>
+                <div className="form-control">
+                    <label for="companyWebpage">Company Webpage</label>
+                    <input
+                        type="text"
+                        onChange={(e) =>
+                            inputChangeHandler(setCompanyWebpage, e)
+                        }
+                        value={companyWebpage}
+                    />
+                </div>
+                <div className="form-control">
+                    <label for="ceoName">CEO's Name</label>
+                    <input
+                        type="text"
+                        onChange={(e) => inputChangeHandler(setCeoName, e)}
+                        value={ceoName}
+                    />
+                </div>
+                <div className="form-control">
+                    <label for="companyEmail">Company Email</label>
+                    <input
+                        type="email"
+                        onChange={(e) => inputChangeHandler(setCompanyEmail, e)}
+                        value={companyEmail}
+                    />
+                </div>
+                <div className="form-control">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        onChange={(e) => inputChangeHandler(setPassword, e)}
+                        value={password}
+                    />
+                </div>
+                <div className="form-control">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input
+                        type="password"
+                        onChange={(e) =>
+                            inputChangeHandler(setConfirmPassword, e)
+                        }
+                        value={confirmPassword}
+                    />
+                </div>
+
+                <button type="submit" className="block btn task-edit-btn">
+                    Sign Up
+                </button>
+                <div className="form-alert"></div>
+            </form>
         </body>
     );
 }

@@ -18,13 +18,11 @@ export default class extends BaseSchema {
 
       table.string('password', 180).notNullable()
 
-      table.string('role').notNullable().defaultTo("manager")
-
-      table.string('branch').notNullable()
+      table.string('role').notNullable().defaultTo('manager')
 
       table.string('remember_me_token').nullable()
 
-      
+      table.integer('company_id').unsigned().references('company_models.id').onDelete('CASCADE')
 
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL

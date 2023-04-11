@@ -3,6 +3,7 @@ import Hash from '@ioc:Adonis/Core/Hash'
 import { column, beforeSave, BaseModel, belongsTo, BelongsTo } from '@ioc:Adonis/Lucid/Orm'
 import Role from 'Contracts/enums/Role'
 import ManagerModel from './ManagerModel'
+import CompanyModel from './CompanyModel'
 
 export default class MemberModel extends BaseModel {
   @column({ isPrimary: true })
@@ -51,6 +52,12 @@ export default class MemberModel extends BaseModel {
     localKey: 'managerId',
   })
   public manager: BelongsTo<typeof ManagerModel>
+
+  @column()
+  public companyId: number
+
+  @belongsTo(() => CompanyModel)
+  public company_models: BelongsTo<typeof CompanyModel>
 
   @beforeSave()
   public static async hashPassword(memberModel: MemberModel) {

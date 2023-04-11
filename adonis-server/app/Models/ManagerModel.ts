@@ -1,8 +1,17 @@
 import { DateTime } from 'luxon'
 import Hash from '@ioc:Adonis/Core/Hash'
-import { column, beforeSave, BaseModel, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import {
+  column,
+  beforeSave,
+  BaseModel,
+  hasMany,
+  HasMany,
+  belongsTo,
+  BelongsTo,
+} from '@ioc:Adonis/Lucid/Orm'
 import Role from 'Contracts/enums/Role'
 import MemberModel from './MemberModel'
+import CompanyModel from './CompanyModel'
 
 export default class ManagerModel extends BaseModel {
   @column({ isPrimary: true })
@@ -33,10 +42,13 @@ export default class ManagerModel extends BaseModel {
   public role: Role
 
   @column()
-  public branch: string
+  public rememberMeToken: string | null
 
   @column()
-  public rememberMeToken: string | null
+  public companyId: number
+
+  @belongsTo(() => CompanyModel)
+  public company_models: BelongsTo<typeof CompanyModel>
 
   @hasMany(() => MemberModel, {
     foreignKey: 'managerId',

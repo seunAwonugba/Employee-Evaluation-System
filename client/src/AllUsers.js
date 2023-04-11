@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import baseUrl from "./base_url/baseUrl";
-import "./css/home.css";
-
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";

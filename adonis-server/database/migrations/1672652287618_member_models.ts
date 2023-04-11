@@ -20,11 +20,11 @@ export default class extends BaseSchema {
 
       table.string('role').notNullable().defaultTo('member')
 
-      table.string('branch').notNullable()
-
       table.string('remember_me_token').nullable()
 
       table.integer('manager_id').unsigned().references('manager_models.id')
+
+      table.integer('company_id').unsigned().references('company_models.id').onDelete('CASCADE')
 
       /**
        * Uses timestampz for PostgreSQL and DATETIME2 for MSSQL

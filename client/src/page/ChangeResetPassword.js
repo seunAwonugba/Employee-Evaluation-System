@@ -1,8 +1,15 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import baseUrl from "../base_url/baseUrl";
+import { useNavigate } from "react-router-dom";
+
+const params = window.location.search;
+const token = new URLSearchParams(params).get("token");
 
 export default function ChangeResetPassword() {
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -14,8 +21,10 @@ export default function ChangeResetPassword() {
     const changeResetPassword = async (e) => {
         e.preventDefault();
         const userResponse = {
+            email,
             password,
-            confirmPassword,
+            password_confirmation: confirmPassword,
+            token,
         };
 
         try {
@@ -23,9 +32,14 @@ export default function ChangeResetPassword() {
                 "auth/change-reset-password",
                 userResponse
             );
-            // setIsLoading(false);
-
             console.log(response);
+            // setIsLoading(false);
+            if (response.data.success === true) {
+                toast.success(response.data.data);
+                navigate("/login");
+            } else {
+                toast.error(response.data.data);
+            }
         } catch (error) {
             setIsLoading(false);
             console.log(error);
@@ -34,44 +48,41 @@ export default function ChangeResetPassword() {
     };
 
     return isLoading ? (
-        <div className="loader">Loading...</div>
+        <body>
+            <h4>Loading...</h4>
+        </body>
     ) : (
         <body>
-            <main>
-                <div className="container">
-                    <form
-                        onSubmit={changeResetPassword}
-                        className="single-task-form"
-                    >
-                        <h4>Reset Password</h4>
-                        <div className="form-control">
-                            <label for="companyEmail">Password</label>
-                            <input
-                                type="password"
-                                onChange={(e) =>
-                                    inputChangeHandler(setPassword, e)
-                                }
-                            />
-                        </div>
-                        <div className="form-control">
-                            <label for="password">Confirm password</label>
-                            <input
-                                type="password"
-                                onChange={(e) =>
-                                    inputChangeHandler(setConfirmPassword, e)
-                                }
-                            />
-                        </div>
-
-                        <button
-                            type="submit"
-                            className="block btn task-edit-btn"
-                        >
-                            Change password
-                        </button>
-                    </form>
+            <form onSubmit={changeResetPassword} className="single-task-form">
+                <h4>Reset Password</h4>
+                <div className="form-control">
+                    <label for="company_email">Company email</label>
+                    <input
+                        type="email"
+                        onChange={(e) => inputChangeHandler(setEmail, e)}
+                    />
                 </div>
-            </main>
+                <div className="form-control">
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        onChange={(e) => inputChangeHandler(setPassword, e)}
+                    />
+                </div>
+                <div className="form-control">
+                    <label for="confirm_password">Confirm password</label>
+                    <input
+                        type="password"
+                        onChange={(e) =>
+                            inputChangeHandler(setConfirmPassword, e)
+                        }
+                    />
+                </div>
+
+                <button type="submit" className="block btn task-edit-btn">
+                    Change password
+                </button>
+            </form>
         </body>
     );
 }

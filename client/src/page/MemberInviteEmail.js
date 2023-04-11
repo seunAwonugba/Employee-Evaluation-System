@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import baseUrl from "../base_url/baseUrl";
 
-export default function ForgotPasswordEmail() {
+export default function MemberInviteEmail() {
     const navigate = useNavigate();
-    const [companyEmail, setCompanyEmail] = useState("");
+    const [email, setEmail] = useState("");
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -13,10 +13,10 @@ export default function ForgotPasswordEmail() {
         setFunction(event.target.value);
     };
 
-    const sendResetPasswordLink = async (e) => {
+    const sendInvite = async (e) => {
         e.preventDefault();
 
-        const userResponse = { companyEmail };
+        const userResponse = { companyEmail: email };
 
         try {
             const response = await baseUrl.post(
@@ -42,16 +42,16 @@ export default function ForgotPasswordEmail() {
         </body>
     ) : (
         <body className="container">
-            <form className="single-task-form" onSubmit={sendResetPasswordLink}>
+            <form className="single-task-form" onSubmit={sendInvite}>
                 <div className="form-control">
-                    <label for="email">Company Email</label>
+                    <label for="email">Member Email</label>
                     <input
                         type="email"
-                        onChange={(e) => inputChangeHandler(setCompanyEmail, e)}
+                        onChange={(e) => inputChangeHandler(setEmail, e)}
                     />
                 </div>
                 <button type="submit" className="block btn task-edit-btn">
-                    Continue Reset Password
+                    Invite Member
                 </button>
             </form>
         </body>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import baseUrl from "../base_url/baseUrl";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -24,11 +24,15 @@ export default function EmailConfirmation() {
                 }
             } catch (error) {
                 console.log(error);
-                toast.error(error.data.data);
+                toast.error(error.response.data.data);
             }
         };
         validateToken();
     }, []);
 
-    return <h1>Email address confirmation screen</h1>;
+    return (
+        <body className="container">
+            <h1>Email address confirmation screen</h1>
+        </body>
+    );
 }

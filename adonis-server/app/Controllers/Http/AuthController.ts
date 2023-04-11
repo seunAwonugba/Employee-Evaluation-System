@@ -2,13 +2,12 @@ import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import CompanyModel from 'App/Models/CompanyModel'
 import { StatusCodes, ReasonPhrases } from 'http-status-codes'
-import Mail from '@ioc:Adonis/Addons/Mail'
 import Env from '@ioc:Adonis/Core/Env'
 import jwt from 'jsonwebtoken'
 import Database from '@ioc:Adonis/Lucid/Database'
 import PasswordResetModel from 'App/Models/PasswordResetModel'
 import Hash from '@ioc:Adonis/Core/Hash'
-
+import sendMail from '../../../util/mailService'
 export default class AuthController {
   public async signUp(ctx: HttpContextContract) {
     const createCompanySchema = schema.create({
@@ -63,29 +62,12 @@ export default class AuthController {
         confirmToken: token,
       })
 
-      const sendConfirmationMail = async (
-        to: string,
-        subject: string,
-        companyName: string,
-        token: string
-      ) => {
-        await Mail.send((message) => {
-          message
-            .from('fiona14@ethereal.email')
-            .to(to)
-            .subject(subject)
-            .htmlView('emails/confirmation_email', {
-              user: { companyName },
-              url: `${Env.get('CLIENT_URL')}/email-confirmation/?token=${token}`,
-            })
-        })
-      }
-
-      sendConfirmationMail(
+      sendMail(
         registerCompany.companyEmail,
         'Confirm Email!!!',
-        registerCompany.companyName,
-        token
+        'emails/confirmation_email',
+        `${Env.get('CLIENT_URL')}/email-confirmation/?token=${token}`,
+        registerCompany.companyName
       )
 
       return ctx.response.status(StatusCodes.CREATED).json({
@@ -174,26 +156,16 @@ export default class AuthController {
         token,
       })
 
-      const sendResetPasswordLinkMail = async (to: string, subject: string, token: string) => {
-        await Mail.send((message) => {
-          message
-            .from('jessica.grady91@ethereal.email')
-            .to(to)
-            .subject(subject)
-            .htmlView('emails/change_reset_password', {
-              url: `${Env.get('CLIENT_URL')}/change-reset-password/?token=${
-                addUserForPasswordReset.token
-              }`,
-            })
-        })
-      }
-
-      sendResetPasswordLinkMail(company.companyEmail, 'Reset password Link', token)
+      sendMail(
+        company.companyEmail,
+        'Reset password Link',
+        'emails/change_reset_password',
+        `${Env.get('CLIENT_URL')}/change-reset-password/?token=${addUserForPasswordReset.token}`
+      )
 
       return ctx.response.status(StatusCodes.CREATED).json({
         success: true,
         data: `Reset password link sent to ${payload.companyEmail}, proceed to your mail box to reset your password`,
-        // token,
       })
     } catch (error) {
       return ctx.response.status(StatusCodes.BAD_REQUEST).json({
@@ -251,7 +223,7 @@ export default class AuthController {
         })
       }
 
-      company.password = await Hash.make(payload.password)
+      company.password = payload.password
 
       await company.save()
 
@@ -287,8 +259,8 @@ export default class AuthController {
           '*': (field, rule, _arrayExpressionPointer, _options) => {
             return `${rule} validation error on ${field}`
           },
-          'companyEmail.required': 'Company email is required',
-          'companyEmail.email': 'Please provide a valid company email address',
+          'companyEmail.required': 'Email address is required',
+          'email': 'Please provide a valid email address',
           'password.required': 'Password is required',
           'password.regex':
             'Passwords must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
@@ -296,12 +268,10 @@ export default class AuthController {
       })
 
       const company = await CompanyModel.findBy('companyEmail', payload.companyEmail)
-      // console.log(company)
-
       if (!company) {
         return ctx.response.status(StatusCodes.NOT_FOUND).json({
           success: false,
-          data: 'Company with this email address does not exist',
+          data: 'Wrong email address or password',
         })
       }
 
@@ -313,7 +283,6 @@ export default class AuthController {
       }
 
       const verifyPassword = await Hash.verify(company.password, payload.password)
-
 
       if (!verifyPassword) {
         return ctx.response.status(StatusCodes.NOT_FOUND).json({
@@ -337,9 +306,11 @@ export default class AuthController {
         token,
       })
     } catch (error) {
+      console.log(error)
+
       return ctx.response.status(StatusCodes.BAD_REQUEST).json({
         success: false,
-        data: error.messages.errors[0].message,
+        data: error,
       })
     }
   }

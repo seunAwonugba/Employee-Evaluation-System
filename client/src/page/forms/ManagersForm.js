@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import baseUrl from "../../base_url/baseUrl";
-import "../../css/forms.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
@@ -133,230 +132,220 @@ export default function ManagerForm() {
     };
 
     return isLoading ? (
-        <div className="loader">Loading...</div>
+        <body>
+            <h4>Loading...</h4>
+        </body>
     ) : (
         <body>
-            <main>
-                <div className="container">
-                    <form onSubmit={submitForm} className="single-task-form">
-                        <h4>Employee Evaluation</h4>
-                        <div className="form-control">
-                            <label for="name">Manager</label>
+            <form onSubmit={submitForm} className="single-task-form">
+                <h4>Employee Evaluation</h4>
+                <div className="form-control">
+                    <label for="name">Manager</label>
 
-                            <p>{managerName}</p>
-                        </div>
-                        <div className="form-control">
-                            <label for="evaluationMonth">
-                                Evaluation month
-                            </label>
-                            <p className="eval-month">{evaluationMonth}</p>
-                        </div>
-                        <div className="form-control">
-                            <label for="name">Branch</label>
-                            <select
-                                name="region"
-                                className="task-edit-name"
-                                onChange={(e) => {
-                                    onChangeDropDownBranch(e);
-                                }}
-                            >
-                                <option disabled selected value>
-                                    {" "}
-                                    -- select an option --{" "}
-                                </option>
-                                {availableBranch.map((item) => {
-                                    return (
-                                        <option value={item} key={item}>
-                                            {item}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                        </div>
-                        <div className="form-control">
-                            <label for="select_member">Select member</label>
-                            <select
-                                name="select_member"
-                                className="task-edit-name"
-                                onChange={(e) => {
-                                    onChangeDropDownMember(e);
-                                }}
-                                disabled={enableSelectMember}
-                            >
-                                <option disabled selected value>
-                                    {" "}
-                                    -- select an option --{" "}
-                                </option>
-                                {getMembers.map((item) => {
-                                    return (
-                                        <option
-                                            value={`${item.id}`}
-                                            key={item.id}
-                                        >
-                                            {`${item.first_name} ${item.last_name}`}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                        </div>
-                        <div className="form-control">
-                            <label for="work_quality">Work quality</label>
-                            <select
-                                name="work_quality"
-                                className="task-edit-name"
-                                onChange={(e) => {
-                                    onWorkQuality(e);
-                                }}
-                                required
-                            >
-                                <option disabled selected value>
-                                    {" "}
-                                    -- select an option --{" "}
-                                </option>
-                                {employeeRating.map((item) => {
-                                    return (
-                                        <option
-                                            value={`${item}`}
-                                            key={`work_quality_${item}`}
-                                        >
-                                            {item}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                        </div>
-                        <div className="form-control">
-                            <label for="work_quality">Reason</label>
-                            <textarea
-                                value={workQualityReason.trim()}
-                                onChange={(e) => {
-                                    setWorkQualityReason(e.target.value);
-                                }}
-                                required
-                            ></textarea>
-                        </div>
-
-                        <div className="form-control">
-                            <label for="task_completion">Task completion</label>
-                            <select
-                                name="task_completion"
-                                className="task-edit-name"
-                                onChange={(e) => {
-                                    onTaskCompletion(e);
-                                }}
-                                required
-                            >
-                                <option disabled selected value>
-                                    {" "}
-                                    -- select an option --{" "}
-                                </option>
-                                {employeeRating.map((item) => {
-                                    return (
-                                        <option
-                                            value={`${item}`}
-                                            key={`task_completion_${item}`}
-                                        >
-                                            {item}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                        </div>
-
-                        <div className="form-control">
-                            <label for="work_quality">Reason</label>
-                            <textarea
-                                value={taskCompletionReason.trim()}
-                                onChange={(e) => {
-                                    setTaskCompletionReason(e.target.value);
-                                }}
-                                required
-                            ></textarea>
-                        </div>
-                        <div className="form-control">
-                            <label for="overAndAbroad">Over and abroad</label>
-                            <select
-                                name="overAndAbroad"
-                                className="task-edit-name"
-                                onChange={(e) => {
-                                    onOverAndAbroad(e);
-                                }}
-                                required
-                            >
-                                <option disabled selected value>
-                                    {" "}
-                                    -- select an option --{" "}
-                                </option>
-                                {employeeRating.map((item) => {
-                                    return (
-                                        <option
-                                            value={`${item}`}
-                                            key={`over_and_abroad_${item}`}
-                                        >
-                                            {item}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                        </div>
-
-                        <div className="form-control">
-                            <label for="overAndAbroadReason">Reason</label>
-                            <textarea
-                                value={overAndAbroadReason.trim()}
-                                onChange={(e) => {
-                                    setOverAndAbroadReason(e.target.value);
-                                }}
-                                required
-                            ></textarea>
-                        </div>
-                        <div className="form-control">
-                            <label for="communication">Communication</label>
-                            <select
-                                name="communication"
-                                className="task-edit-name"
-                                onChange={(e) => {
-                                    onCommunication(e);
-                                }}
-                                required
-                            >
-                                <option disabled selected value>
-                                    {" "}
-                                    -- select an option --{" "}
-                                </option>
-                                {employeeRating.map((item) => {
-                                    return (
-                                        <option
-                                            value={`${item}`}
-                                            key={`communication_${item}`}
-                                        >
-                                            {item}
-                                        </option>
-                                    );
-                                })}
-                            </select>
-                        </div>
-
-                        <div className="form-control">
-                            <label for="work_quality">Reason</label>
-                            <textarea
-                                value={communicationReason.trim()}
-                                onChange={(e) => {
-                                    setCommunicationReason(e.target.value);
-                                }}
-                                required
-                            ></textarea>
-                        </div>
-                        <button
-                            type="submit"
-                            className="block btn task-edit-btn"
-                        >
-                            Submit
-                        </button>
-                        <div className="form-alert"></div>
-                    </form>
+                    <p>{managerName}</p>
                 </div>
-            </main>
+                <div className="form-control">
+                    <label for="evaluationMonth">Evaluation month</label>
+                    <p className="eval-month">{evaluationMonth}</p>
+                </div>
+                <div className="form-control">
+                    <label for="name">Branch</label>
+                    <select
+                        name="region"
+                        className="task-edit-name"
+                        onChange={(e) => {
+                            onChangeDropDownBranch(e);
+                        }}
+                    >
+                        <option disabled selected value>
+                            {" "}
+                            -- select an option --{" "}
+                        </option>
+                        {availableBranch.map((item) => {
+                            return (
+                                <option value={item} key={item}>
+                                    {item}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
+                <div className="form-control">
+                    <label for="select_member">Select member</label>
+                    <select
+                        name="select_member"
+                        className="task-edit-name"
+                        onChange={(e) => {
+                            onChangeDropDownMember(e);
+                        }}
+                        disabled={enableSelectMember}
+                    >
+                        <option disabled selected value>
+                            {" "}
+                            -- select an option --{" "}
+                        </option>
+                        {getMembers.map((item) => {
+                            return (
+                                <option value={`${item.id}`} key={item.id}>
+                                    {`${item.first_name} ${item.last_name}`}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
+                <div className="form-control">
+                    <label for="work_quality">Work quality</label>
+                    <select
+                        name="work_quality"
+                        className="task-edit-name"
+                        onChange={(e) => {
+                            onWorkQuality(e);
+                        }}
+                        required
+                    >
+                        <option disabled selected value>
+                            {" "}
+                            -- select an option --{" "}
+                        </option>
+                        {employeeRating.map((item) => {
+                            return (
+                                <option
+                                    value={`${item}`}
+                                    key={`work_quality_${item}`}
+                                >
+                                    {item}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
+                <div className="form-control">
+                    <label for="work_quality">Reason</label>
+                    <textarea
+                        value={workQualityReason.trim()}
+                        onChange={(e) => {
+                            setWorkQualityReason(e.target.value);
+                        }}
+                        required
+                    ></textarea>
+                </div>
+
+                <div className="form-control">
+                    <label for="task_completion">Task completion</label>
+                    <select
+                        name="task_completion"
+                        className="task-edit-name"
+                        onChange={(e) => {
+                            onTaskCompletion(e);
+                        }}
+                        required
+                    >
+                        <option disabled selected value>
+                            {" "}
+                            -- select an option --{" "}
+                        </option>
+                        {employeeRating.map((item) => {
+                            return (
+                                <option
+                                    value={`${item}`}
+                                    key={`task_completion_${item}`}
+                                >
+                                    {item}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
+
+                <div className="form-control">
+                    <label for="work_quality">Reason</label>
+                    <textarea
+                        value={taskCompletionReason.trim()}
+                        onChange={(e) => {
+                            setTaskCompletionReason(e.target.value);
+                        }}
+                        required
+                    ></textarea>
+                </div>
+                <div className="form-control">
+                    <label for="overAndAbroad">Over and abroad</label>
+                    <select
+                        name="overAndAbroad"
+                        className="task-edit-name"
+                        onChange={(e) => {
+                            onOverAndAbroad(e);
+                        }}
+                        required
+                    >
+                        <option disabled selected value>
+                            {" "}
+                            -- select an option --{" "}
+                        </option>
+                        {employeeRating.map((item) => {
+                            return (
+                                <option
+                                    value={`${item}`}
+                                    key={`over_and_abroad_${item}`}
+                                >
+                                    {item}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
+
+                <div className="form-control">
+                    <label for="overAndAbroadReason">Reason</label>
+                    <textarea
+                        value={overAndAbroadReason.trim()}
+                        onChange={(e) => {
+                            setOverAndAbroadReason(e.target.value);
+                        }}
+                        required
+                    ></textarea>
+                </div>
+                <div className="form-control">
+                    <label for="communication">Communication</label>
+                    <select
+                        name="communication"
+                        className="task-edit-name"
+                        onChange={(e) => {
+                            onCommunication(e);
+                        }}
+                        required
+                    >
+                        <option disabled selected value>
+                            {" "}
+                            -- select an option --{" "}
+                        </option>
+                        {employeeRating.map((item) => {
+                            return (
+                                <option
+                                    value={`${item}`}
+                                    key={`communication_${item}`}
+                                >
+                                    {item}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </div>
+
+                <div className="form-control">
+                    <label for="work_quality">Reason</label>
+                    <textarea
+                        value={communicationReason.trim()}
+                        onChange={(e) => {
+                            setCommunicationReason(e.target.value);
+                        }}
+                        required
+                    ></textarea>
+                </div>
+                <button type="submit" className="block btn task-edit-btn">
+                    Submit
+                </button>
+                <div className="form-alert"></div>
+            </form>
         </body>
     );
 }
