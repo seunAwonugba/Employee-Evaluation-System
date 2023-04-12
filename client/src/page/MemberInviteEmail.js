@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import baseUrl from "../base_url/baseUrl";
+import jwtDecode from "jwt-decode";
 
 export default function MemberInviteEmail() {
     const navigate = useNavigate();
@@ -13,20 +14,23 @@ export default function MemberInviteEmail() {
         setFunction(event.target.value);
     };
 
+    const token = localStorage.getItem("employee_eval_token");
+    const decode = jwtDecode(token);
+
     const sendInvite = async (e) => {
         e.preventDefault();
 
-        const userResponse = { companyEmail: email };
+        const userResponse = { email };
 
         try {
             const response = await baseUrl.post(
-                "auth/reset-password-link",
+                `invite/team-invite/?companyEmail=${decode.companyEmail}&type=member`,
                 userResponse
             );
 
             if (response.data.success === true) {
                 toast.success(response.data.data);
-                navigate("/forgot-password-email-sent");
+                navigate("/");
             } else {
                 toast.error(response.data.data);
             }

@@ -34,6 +34,10 @@ Route.group(() => {
 }).prefix('api/v1/auth/')
 
 Route.group(() => {
+  Route.post('team-invite', 'InvitesController.invite')
+}).prefix('api/v1/invite/')
+
+Route.group(() => {
   Route.get('managers', 'UsersController.getManagers')
   Route.get('members', 'UsersController.getMembers')
 

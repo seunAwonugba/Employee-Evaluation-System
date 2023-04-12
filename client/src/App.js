@@ -22,10 +22,11 @@ import MemberInviteEmail from "./page/MemberInviteEmail";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(
-        localStorage.getItem("employee_eval_token") ? true : false
+        Boolean(localStorage.getItem("employee_eval_token"))
     );
 
-    const handleLogin = () => {
+    const handleLogin = (token) => {
+        localStorage.setItem("employee_eval_token", token);
         setIsLoggedIn(true);
     };
 

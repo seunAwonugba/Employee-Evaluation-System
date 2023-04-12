@@ -30,11 +30,7 @@ export default function Login({ handleLogin }) {
             if (response.data.success === true) {
                 console.log(response);
                 toast.success("Login successful");
-                // localStorage.setItem(
-                //     "employee_eval_token",
-                //     response.data.token
-                // );
-                handleLogin();
+                handleLogin(response.data.token);
 
                 navigate("/dashboard");
             } else {
