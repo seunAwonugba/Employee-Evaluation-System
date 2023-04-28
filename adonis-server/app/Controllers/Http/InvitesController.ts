@@ -47,7 +47,7 @@ export default class InvitesController {
             payload.email,
             `Invitation Request from ${companyEmail.companyName}`,
             'emails/invitation_request',
-            `${Env.get('CLIENT_URL')}/accept-invite/?id=${companyEmail.id}&type=${type}`
+            `${Env.get('CLIENT_URL')}/team-signup/?id=${companyEmail.id}&type=${type}`
           )
 
           break
@@ -57,7 +57,7 @@ export default class InvitesController {
             payload.email,
             `Invitation Request from ${companyEmail.companyName}`,
             'emails/invitation_request',
-            `${Env.get('CLIENT_URL')}/accept-invite/?id=${companyEmail.id}&type=${type}`
+            `${Env.get('CLIENT_URL')}/team-signup/?id=${companyEmail.id}&type=${type}`
           )
           break
 

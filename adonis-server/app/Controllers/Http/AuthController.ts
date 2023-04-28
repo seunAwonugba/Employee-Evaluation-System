@@ -76,7 +76,7 @@ export default class AuthController {
         token,
       })
     } catch (error) {
-      return ctx.response.status(StatusCodes.BAD_REQUEST).json({
+      return ctx.response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         success: false,
         data: error.messages.errors[0].message,
       })
@@ -106,7 +106,7 @@ export default class AuthController {
         data: 'Email confirmation is successful, kindly proceed to login if you are not redirected',
       })
     } catch (error) {
-      return ctx.response.status(StatusCodes.BAD_REQUEST).json({
+      return ctx.response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         success: false,
         data: error.messages.errors[0].message,
       })
@@ -168,7 +168,7 @@ export default class AuthController {
         data: `Reset password link sent to ${payload.companyEmail}, proceed to your mail box to reset your password`,
       })
     } catch (error) {
-      return ctx.response.status(StatusCodes.BAD_REQUEST).json({
+      return ctx.response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         success: false,
         data: error.messages.errors[0].message,
       })
@@ -237,7 +237,7 @@ export default class AuthController {
         data: 'Password reset successful, kindly proceed to login if you are not redirected',
       })
     } catch (error) {
-      return ctx.response.status(StatusCodes.BAD_REQUEST).json({
+      return ctx.response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         success: false,
         data: error.messages.errors[0].message,
       })
@@ -308,7 +308,7 @@ export default class AuthController {
     } catch (error) {
       console.log(error)
 
-      return ctx.response.status(StatusCodes.BAD_REQUEST).json({
+      return ctx.response.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         success: false,
         data: error,
       })

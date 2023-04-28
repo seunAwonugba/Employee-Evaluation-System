@@ -32,9 +32,6 @@ export default class ManagerModel extends BaseModel {
   @column()
   public phoneNumber: string
 
-  @column()
-  public address: string
-
   @column({ serializeAs: null })
   public password: string
 

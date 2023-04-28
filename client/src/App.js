@@ -2,15 +2,14 @@
 import React, { useState } from "react";
 import ManagerForm from "./page/forms/ManagersForm";
 import { Route, Routes } from "react-router-dom";
-import AllUsers from "./AllUsers";
 import StaffForm from "./page/forms/MembersForm";
 import NavBar from "./navbar/NavBar";
 import { ToastContainer } from "react-toastify";
 import ManagerScores from "./page/scores/Manager";
 import MemberScores from "./page/scores/Member";
-import SignUp from "./page/auth/SignUp";
+import SignUp from "./page/auth/company/SignUp";
 import EmailConfirmation from "./page/EmailConfirmation";
-import Login from "./page/auth/Login";
+import Login from "./page/auth/company/Login";
 import EmailConfirmationSent from "./page/EmailConfirmationSent";
 import ForgotPasswordEmail from "./page/ForgotPasswordEmail";
 import ForgotPasswordEmailSent from "./page/ForgotPasswordEmailSent";
@@ -19,6 +18,7 @@ import LandingPage from "./page/LandingPage";
 import Dashboard from "./page/Dashboard";
 import ManagerInviteEmail from "./page/ManagerInviteEmail";
 import MemberInviteEmail from "./page/MemberInviteEmail";
+import TeamSignUp from "./page/auth/team/TeamSignUp";
 
 function App() {
     const [isLoggedIn, setIsLoggedIn] = useState(
@@ -85,6 +85,8 @@ function App() {
                 />
 
                 <Route path="/member-invite" element={<MemberInviteEmail />} />
+
+                <Route path="/team-signup" element={<TeamSignUp />} />
             </Routes>
             <ToastContainer />
         </>

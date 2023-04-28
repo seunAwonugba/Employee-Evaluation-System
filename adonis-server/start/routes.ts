@@ -31,6 +31,8 @@ Route.group(() => {
   Route.get('confirm-email', 'AuthController.confirmEmail')
   Route.post('reset-password-link', 'AuthController.sendPasswordResetLink')
   Route.post('change-reset-password', 'AuthController.changeResetPassword')
+
+  Route.post('team-sign-up', 'TeamAuthsController.signUp')
 }).prefix('api/v1/auth/')
 
 Route.group(() => {

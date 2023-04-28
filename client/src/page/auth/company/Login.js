@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import baseUrl from "../../base_url/baseUrl";
+import baseUrl from "../../../base_url/baseUrl";
 import { useNavigate } from "react-router-dom";
 
 export default function Login({ handleLogin }) {

@@ -13,8 +13,7 @@ export default class extends BaseSchema {
       table.string('email', 255).notNullable().unique()
 
       table.string('gender').notNullable()
-      table.string('phone_number').notNullable()
-      table.string('address').notNullable()
+      table.string('phone_number')
 
       table.string('password', 180).notNullable()
 

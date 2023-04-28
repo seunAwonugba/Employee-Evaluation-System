@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import baseUrl from "../../base_url/baseUrl";
+import baseUrl from "../../../base_url/baseUrl";
 import { useNavigate } from "react-router-dom";
 
-export default function SignUp() {
+const params = window.location.search;
+const companyId = new URLSearchParams(params).get("id");
+const type = new URLSearchParams(params).get("type");
+
+export default function TeamSignUp() {
     const navigate = useNavigate();
 
-    const [companyName, setCompanyName] = useState("");
-    const [companyWebpage, setCompanyWebpage] = useState("");
-    const [ceoName, setCeoName] = useState("");
-    const [companyEmail, setCompanyEmail] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -24,20 +28,24 @@ export default function SignUp() {
 
         setIsLoading(true);
         const userResponse = {
-            companyName,
-            companyWebpage,
-            ceoName,
-            companyEmail,
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
             password,
             password_confirmation: confirmPassword,
         };
 
         try {
-            const response = await baseUrl.post("auth/sign-up", userResponse);
+            const response = await baseUrl.post(
+                `auth/team-sign-up/?id=${companyId}&type=${type}`,
+                userResponse
+            );
             setIsLoading(false);
+            console.log(response);
 
             if (response.data.success === true) {
-                navigate("/email-confirmation-sent");
+                navigate("/");
             } else {
                 toast.error(response.data.data);
             }
@@ -55,39 +63,37 @@ export default function SignUp() {
     ) : (
         <body className="container">
             <form onSubmit={signUp} className="single-task-form">
-                <h4>Company Sign Up</h4>
+                <h4>Team Sign Up</h4>
                 <div className="form-control">
-                    <label for="companyName">Company Name</label>
+                    <label for="companyName">First name</label>
                     <input
                         type="text"
-                        onChange={(e) => inputChangeHandler(setCompanyName, e)}
-                        value={companyName}
+                        onChange={(e) => inputChangeHandler(setFirstName, e)}
+                        value={firstName}
                     />
                 </div>
                 <div className="form-control">
-                    <label for="companyWebpage">Company Webpage</label>
+                    <label for="companyWebpage">Last name</label>
                     <input
                         type="text"
-                        onChange={(e) =>
-                            inputChangeHandler(setCompanyWebpage, e)
-                        }
-                        value={companyWebpage}
+                        onChange={(e) => inputChangeHandler(setLastName, e)}
+                        value={lastName}
                     />
                 </div>
                 <div className="form-control">
-                    <label for="ceoName">CEO's Name</label>
-                    <input
-                        type="text"
-                        onChange={(e) => inputChangeHandler(setCeoName, e)}
-                        value={ceoName}
-                    />
-                </div>
-                <div className="form-control">
-                    <label for="companyEmail">Company Email</label>
+                    <label for="companyEmail">Email</label>
                     <input
                         type="email"
-                        onChange={(e) => inputChangeHandler(setCompanyEmail, e)}
-                        value={companyEmail}
+                        onChange={(e) => inputChangeHandler(setEmail, e)}
+                        value={email}
+                    />
+                </div>
+                <div className="form-control">
+                    <label for="companyEmail">Phone number</label>
+                    <input
+                        type="tel"
+                        onChange={(e) => inputChangeHandler(setPhoneNumber, e)}
+                        value={phoneNumber}
                     />
                 </div>
                 <div className="form-control">
